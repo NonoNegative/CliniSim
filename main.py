@@ -13,20 +13,16 @@ root.attributes('-fullscreen', True)
 # icon = tk.PhotoImage(file='images\\icon.png')
 # root.iconphoto(True, icon)
 
-# Important variables
 screen_height = root.winfo_screenheight()
 screen_width = root.winfo_screenwidth()
 
-# Load and resize the background image to fit the window
 background_image = Image.open('assets\\backgrounds\\sample.jpg')
 background_image = background_image.resize((screen_width, screen_height), Image.Resampling.LANCZOS)
 background_image = ImageTk.PhotoImage(background_image)
 
-# Create a canvas for the background image
 canvas = tk.Canvas(root, width=screen_width, height=screen_height, highlightthickness=0)
 canvas.pack()
 
-# Set the background image on the canvas
 canvas.create_image(0, 0, anchor=tk.NW, image=background_image)
 
 def show_info(text, color):
