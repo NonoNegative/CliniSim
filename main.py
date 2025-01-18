@@ -3,6 +3,7 @@ from PIL import Image, ImageTk, ImageColor
 import tkinter.messagebox as messagebox
 from shared.transforms import RGBTransform
 import shared.customtk as customtk
+from shared.tkgif import GifLabel
 import json
 import os
 import sys
@@ -140,8 +141,11 @@ def render_chat(scroll_index=0):
 def send_message(message):
     global chat_log
     chat_log.insert(0, message)
-    chat_log.insert(0, '    ')
+    chat_log.insert(0, '       ')
     render_chat()
+    gif_label = GifLabel(chat_canvas, bd=0)
+    gif_label.place(x=34, y=432, anchor=tk.SW)
+    gif_label.load("assets\\icons\\waiting_2.gif")
 
 chat_msg_var=tk.StringVar()
 chat_msg_var.set("Ask about anything...")
