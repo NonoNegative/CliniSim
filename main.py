@@ -55,4 +55,15 @@ close_button.bind('<Enter>', lambda x: show_info('Close', 'IndianRed2')); close_
 minimize_button.bind('<Enter>', lambda x: show_info('Minimize', 'Gold')); minimize_button.bind('<Leave>', lambda x: show_info('', 'Gold'))
 test_button.bind('<Enter>', lambda x: show_info('Configure/Launcher', 'Pale Green')); test_button.bind('<Leave>', lambda x: show_info('', 'Pale Green'))
 
+static_img = customtk.create_tk_image('assets\\static\\static_v1.png', 1920, 1080)
+canvas.create_image(0, 0, anchor=tk.NW, image=static_img)
+
+start_chatting_icon_tk = customtk.create_tk_image('assets\\icons\\start_chatting.png', 135, 133)
+start_chatting_icon = canvas.create_image(260, 790, anchor=tk.CENTER, image=start_chatting_icon_tk)
+img = customtk.create_image_button(root, 'assets\\icons\\send.png', 433, 1022, 22, 22, bg='#3e3e3e', active_bg='#3e3e3e', disable_btn_press_anim=True)
+
+chat_msg_var=tk.StringVar()
+chat_entry = tk.Entry(canvas, textvariable=chat_msg_var, font=('Alte Haas Grotesk', 15, 'bold'), width=31, background='#ffffff', bd=0, fg='#4f4f4f')
+chat_entry.place(x=39, y=1019)
+
 root.mainloop()

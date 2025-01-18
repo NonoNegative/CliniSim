@@ -38,3 +38,9 @@ def quit_confirm(root):
     if answer:
         root.destroy()
 
+def create_image_button(root, image_path, x, y, size_x, size_y, command=lambda *args: None, bg='#ffffff', active_bg='#ffffff', disable_btn_press_anim=False):
+    img = create_tk_image(image_path, size_x, size_y)
+    btn = tk.Button(root, image=img, bd=1, highlightthickness= 0, bg=bg, activebackground=active_bg, relief='flat', command= command)
+    if disable_btn_press_anim == True:
+        btn.config(borderwidth=0, relief='flat')
+    btn.image = img ; btn.place(x=x, y=y, width=size_x, height=size_y, anchor=tk.NW)
