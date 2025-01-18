@@ -60,10 +60,93 @@ canvas.create_image(0, 0, anchor=tk.NW, image=static_img)
 
 start_chatting_icon_tk = customtk.create_tk_image('assets\\icons\\start_chatting.png', 135, 133)
 start_chatting_icon = canvas.create_image(260, 790, anchor=tk.CENTER, image=start_chatting_icon_tk)
-img = customtk.create_image_button(root, 'assets\\icons\\send.png', 433, 1022, 22, 22, bg='#3e3e3e', active_bg='#3e3e3e', disable_btn_press_anim=True)
+chat_log = []
+
+existing_chat_canvas = None
+def render_chat(scroll_index=0):
+
+    # Redraw Canvas
+    global chat_canvas, existing_chat_canvas
+    if existing_chat_canvas != None:
+        try:
+            existing_chat_canvas.destroy()
+        except Exception:
+            pass
+    chat_canvas = tk.Canvas(root, width=443, height=456, highlightthickness=0)
+    chat_canvas.place(x=27,y=550)
+    existing_chat_canvas = chat_canvas
+    chat_canvas.create_image(-27, -550, anchor=tk.NW, image=background_image)
+    chat_canvas.create_image(-27, -550, anchor=tk.NW, image=static_img)
+    global my_triangle_icon, their_triangle_icon
+    canvas.delete(start_chatting_icon)
+
+    # Config
+    my_chat_bubble_color = '#0a7cee'; my_chat_text_color = '#ffffff'
+    their_chat_bubble_color = '#ffffff'; their_chat_text_color = '#4f4f4f'
+    y_bound = 0; y_spacing = 20
+
+    triangle_icon = Image.open("assets\\icons\\triangle.png")
+    triangle_icon = triangle_icon.resize((10, 10), Image.Resampling.LANCZOS)
+    alpha = triangle_icon.split()[-1]
+    triangle_icon = triangle_icon.convert("RGB")
+
+    # My chat (Blue default)
+    my_triangle_icon = RGBTransform().mix_with(ImageColor.getcolor(my_chat_bubble_color, "RGB"),factor=1).applied_to(triangle_icon)
+    my_triangle_icon.putalpha(alpha)
+    my_triangle_icon = my_triangle_icon.rotate(90)
+    my_triangle_icon = ImageTk.PhotoImage(my_triangle_icon)
+
+    # Their chat (White default)
+    their_triangle_icon = RGBTransform().mix_with(ImageColor.getcolor(their_chat_bubble_color, "RGB"),factor=1).applied_to(triangle_icon)
+    their_triangle_icon.putalpha(alpha)
+    their_triangle_icon = ImageTk.PhotoImage(their_triangle_icon)
+
+    # Some quick math
+    index_slice = range(scroll_index, len(chat_log))
+    if len(index_slice)%2 == 0: 
+        start_x = 33; start_y = 440
+    else:
+        start_x = 413; start_y = 440
+
+    for index in index_slice:
+        if start_x == 413:
+            my_message = tk.Label(chat_canvas, text=chat_log[index], wraplength=300, font=('Alte Haas Grotesk', 11, 'bold'), bg=my_chat_bubble_color, fg=my_chat_text_color, justify='left', padx=0, pady=4)
+            my_message.update(); my_message_height = my_message.winfo_reqheight(); my_message_width = my_message.winfo_reqwidth()
+            if (start_y-my_message_height < y_bound):
+                my_message.destroy(); break
+            chat_canvas.create_oval(start_x-8, start_y-1, start_x+8, start_y-17, fill=my_chat_bubble_color, outline=my_chat_bubble_color)
+            chat_canvas.create_oval(start_x-my_message_width-8, start_y-1, start_x-my_message_width+8, start_y-17, fill=my_chat_bubble_color, outline=my_chat_bubble_color)
+            chat_canvas.create_oval(start_x-my_message_width-8, start_y-my_message_height+16, start_x-my_message_width+8, start_y-my_message_height, fill=my_chat_bubble_color, outline=my_chat_bubble_color)
+            chat_canvas.create_rectangle(start_x-my_message_width-8, start_y-8, start_x-my_message_width, start_y-my_message_height+8, fill=my_chat_bubble_color, outline=my_chat_bubble_color, width=0)
+            chat_canvas.create_rectangle(start_x, start_y-8, start_x+9, start_y-my_message_height, fill=my_chat_bubble_color, outline=my_chat_bubble_color, width=0)
+            chat_canvas.create_image(start_x+8, start_y-my_message_height, anchor=tk.NW, image=my_triangle_icon)
+            my_message.place(x=start_x, y=start_y, anchor=tk.SE)
+            start_x = 33; start_y = start_y - my_message_height - y_spacing
+
+        else:
+            their_message = tk.Label(chat_canvas, text=chat_log[index], wraplength=300, font=('Alte Haas Grotesk', 11, 'bold'), bg=their_chat_bubble_color, fg=their_chat_text_color, justify='right', padx=0, pady=4)
+            their_message.update(); their_message_height = their_message.winfo_reqheight(); their_message_width = their_message.winfo_reqwidth()
+            if (start_y-their_message_height < y_bound):
+                their_message.destroy(); break
+            chat_canvas.create_oval(start_x-8, start_y-1, start_x+8, start_y-17, fill=their_chat_bubble_color, outline=their_chat_bubble_color)
+            chat_canvas.create_oval(start_x+their_message_width-8, start_y-1, start_x+their_message_width+8, start_y-17, fill=their_chat_bubble_color, outline=their_chat_bubble_color)
+            chat_canvas.create_oval(start_x+their_message_width-8, start_y-their_message_height+16, start_x+their_message_width+8, start_y-their_message_height, fill=their_chat_bubble_color, outline=their_chat_bubble_color)
+            chat_canvas.create_rectangle(start_x+their_message_width, start_y-8, start_x+their_message_width+9, start_y-their_message_height+8, fill=their_chat_bubble_color, outline=their_chat_bubble_color, width=0)
+            chat_canvas.create_rectangle(start_x-8, start_y-8, start_x, start_y-their_message_height, fill=their_chat_bubble_color, outline=their_chat_bubble_color, width=0)
+            chat_canvas.create_image(start_x-8, start_y-their_message_height, anchor=tk.NE, image=their_triangle_icon)
+            their_message.place(x=start_x, y=start_y, anchor=tk.SW)
+            start_x = 413; start_y = start_y - their_message_height - y_spacing
+
+def send_message(message):
+    global chat_log
+    chat_log.insert(0, message)
+    chat_log.insert(0, '    ')
+    render_chat()
 
 chat_msg_var=tk.StringVar()
-chat_entry = tk.Entry(canvas, textvariable=chat_msg_var, font=('Alte Haas Grotesk', 15, 'bold'), width=31, background='#ffffff', bd=0, fg='#4f4f4f')
-chat_entry.place(x=39, y=1019)
+chat_msg_var.set("Ask about anything...")
+chat_entry = tk.Entry(canvas, textvariable=chat_msg_var, font=('Alte Haas Grotesk', 12, 'bold'), width=41, background='#ffffff', bd=0, fg='#4f4f4f')
+chat_entry.place(x=43, y=1021)
+send_message_button = customtk.create_image_button(root, 'assets\\icons\\send.png', 433, 1022, 22, 22, bg='#3e3e3e', active_bg='#3e3e3e', disable_btn_press_anim=True, command=lambda: send_message(chat_msg_var.get()))
 
 root.mainloop()
