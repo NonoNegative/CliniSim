@@ -17,7 +17,7 @@ class GifLabel(tk.Label):
         except EOFError:
             pass
 
-        self.delay = 40
+        self.delay = 50
 
         if len(self.frames) == 1:
             self.config(image=self.frames[0])

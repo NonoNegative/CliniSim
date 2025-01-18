@@ -113,8 +113,8 @@ def render_chat(scroll_index=0):
         if start_x == 413:
             my_message = tk.Label(chat_canvas, text=chat_log[index], wraplength=300, font=('Alte Haas Grotesk', 11, 'bold'), bg=my_chat_bubble_color, fg=my_chat_text_color, justify='left', padx=0, pady=4)
             my_message.update(); my_message_height = my_message.winfo_reqheight(); my_message_width = my_message.winfo_reqwidth()
-            if (start_y-my_message_height < y_bound):
-                my_message.destroy(); break
+            #if (start_y-my_message_height < y_bound):
+            #    my_message.destroy(); break
             chat_canvas.create_oval(start_x-8, start_y-1, start_x+8, start_y-17, fill=my_chat_bubble_color, outline=my_chat_bubble_color)
             chat_canvas.create_oval(start_x-my_message_width-8, start_y-1, start_x-my_message_width+8, start_y-17, fill=my_chat_bubble_color, outline=my_chat_bubble_color)
             chat_canvas.create_oval(start_x-my_message_width-8, start_y-my_message_height+16, start_x-my_message_width+8, start_y-my_message_height, fill=my_chat_bubble_color, outline=my_chat_bubble_color)
@@ -125,10 +125,10 @@ def render_chat(scroll_index=0):
             start_x = 33; start_y = start_y - my_message_height - y_spacing
 
         else:
-            their_message = tk.Label(chat_canvas, text=chat_log[index], wraplength=300, font=('Alte Haas Grotesk', 11, 'bold'), bg=their_chat_bubble_color, fg=their_chat_text_color, justify='right', padx=0, pady=4)
+            their_message = tk.Label(chat_canvas, text=chat_log[index], wraplength=300, font=('Alte Haas Grotesk', 11, 'bold'), bg=their_chat_bubble_color, fg=their_chat_text_color, justify='left', padx=0, pady=4)
             their_message.update(); their_message_height = their_message.winfo_reqheight(); their_message_width = their_message.winfo_reqwidth()
-            if (start_y-their_message_height < y_bound):
-                their_message.destroy(); break
+            #if (start_y-their_message_height < y_bound):
+            #    their_message.destroy(); break
             chat_canvas.create_oval(start_x-8, start_y-1, start_x+8, start_y-17, fill=their_chat_bubble_color, outline=their_chat_bubble_color)
             chat_canvas.create_oval(start_x+their_message_width-8, start_y-1, start_x+their_message_width+8, start_y-17, fill=their_chat_bubble_color, outline=their_chat_bubble_color)
             chat_canvas.create_oval(start_x+their_message_width-8, start_y-their_message_height+16, start_x+their_message_width+8, start_y-their_message_height, fill=their_chat_bubble_color, outline=their_chat_bubble_color)
@@ -138,14 +138,31 @@ def render_chat(scroll_index=0):
             their_message.place(x=start_x, y=start_y, anchor=tk.SW)
             start_x = 413; start_y = start_y - their_message_height - y_spacing
 
-def send_message(message):
-    global chat_log
-    chat_log.insert(0, message)
+can_send_message = True
+def bot_reply(message):
+    global ind
+    global can_send_message
+    chat_log[0] = message
+    render_chat()
+    can_send_message = True
+    
+
+def wait_for_message():
     chat_log.insert(0, '       ')
     render_chat()
     gif_label = GifLabel(chat_canvas, bd=0)
     gif_label.place(x=34, y=432, anchor=tk.SW)
     gif_label.load("assets\\icons\\waiting_2.gif")
+    chat_canvas.after(1300, lambda: bot_reply("Not funny I didn't laugh. Your joke is so bad I would have preferred the joke went over my head and you gave up re-telling me the joke. To be honest "))
+
+def send_message(message):
+    global chat_log, can_send_message
+    if can_send_message == True:
+        can_send_message = False
+        chat_msg_var.set("")
+        chat_log.insert(0, message)
+        render_chat()
+        chat_canvas.after(500, wait_for_message)
 
 chat_msg_var=tk.StringVar()
 chat_msg_var.set("Ask about anything...")
