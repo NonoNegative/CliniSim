@@ -4,9 +4,13 @@ import tkinter.messagebox as messagebox
 from shared.transforms import RGBTransform
 import shared.customtk as customtk
 from shared.tkgif import GifLabel
+import asyncio
+from ollama import AsyncClient
 import json
 import os
 import sys
+
+asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
 
 root = tk.Tk()
 root.title("CliniSim")
@@ -62,6 +66,7 @@ canvas.create_image(0, 0, anchor=tk.NW, image=static_img)
 start_chatting_icon_tk = customtk.create_tk_image('assets\\icons\\start_chatting.png', 135, 133)
 start_chatting_icon = canvas.create_image(260, 790, anchor=tk.CENTER, image=start_chatting_icon_tk)
 chat_log = []
+ollama_log = []
 
 existing_chat_canvas = None
 def render_chat(scroll_index=0):
@@ -138,6 +143,13 @@ def render_chat(scroll_index=0):
             their_message.place(x=start_x, y=start_y, anchor=tk.SW)
             start_x = 413; start_y = start_y - their_message_height - y_spacing
 
+async def chat_with_ollama(message):
+  response = await AsyncClient().chat(model='llama3.2', messages=ollama_log+[{'role': 'user', 'content': message}])
+  ollama_log.extend([
+    {'role': 'user', 'content': message},
+    {'role': 'assistant', 'content': response.message.content}])
+  return response['message']['content']
+  
 can_send_message = True
 def bot_reply(message):
     global ind
@@ -145,7 +157,6 @@ def bot_reply(message):
     chat_log[0] = message
     render_chat()
     can_send_message = True
-    
 
 def wait_for_message():
     chat_log.insert(0, '       ')
@@ -153,7 +164,7 @@ def wait_for_message():
     gif_label = GifLabel(chat_canvas, bd=0)
     gif_label.place(x=34, y=432, anchor=tk.SW)
     gif_label.load("assets\\icons\\waiting_2.gif")
-    chat_canvas.after(1300, lambda: bot_reply("Not funny I didn't laugh. Your joke is so bad I would have preferred the joke went over my head and you gave up re-telling me the joke. To be honest "))
+    chat_canvas.after(1600, lambda: bot_reply(asyncio.run(chat_with_ollama(chat_log[1]))))
 
 def send_message(message):
     global chat_log, can_send_message
