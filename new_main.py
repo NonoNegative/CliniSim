@@ -36,7 +36,6 @@ else:
 # -------------------End-------------------
 
 #-----------------Load Content-------------
-
 # Load drugs and tests
 drug_list = settings["drugs"]
 test_list = settings["tests"]
@@ -44,7 +43,6 @@ with open('content\\medicines\\medicines.json') as file:
     drug_dict = json.load(file)
 
 # Load settings
-
 root = customtkinter.CTk()
 root.title("CliniSim")
 root.attributes('-fullscreen', True)
@@ -106,6 +104,7 @@ medical_records_button.place(x=12, y=305)
 canvas.create_line(13, 350, 397, 350, fill='#e7e7e7', width=4)
 # -----------------------------End-----------------------------
 
+# --------------------------Chat Log---------------------------
 start_chatting_icon_tk = customtk.create_tk_image('assets\\icons\\start_chatting.png', 135, 133)
 start_chatting_icon = canvas.create_image(207, 804, anchor=tk.CENTER, image=start_chatting_icon_tk)
 chat_log = [
@@ -120,21 +119,32 @@ chat_log = [
     "Nice! I've been thinking about learning React.",
     "You should! It's pretty fun once you get the hang of it."
 ]
+chat_log.reverse() # ONLY FOR DEBUGGING. Comment this out after debugging...
+# -----------------------------End-----------------------------
 
-chat_log.reverse()
-
+# -----------------------Chat Rendering------------------------
 can_scroll = False; scroll_index = 0
 existing_chat_canvas = None
-def render_chat():
-
+def render_chat(stride=0):
     # Redraw Canvas
-    global chat_canvas, existing_chat_canvas, can_scroll
+    global chat_canvas, existing_chat_canvas, can_scroll, scroll_index
+
+    if scroll_index == 0 and existing_chat_canvas == None:
+        pass
+    elif can_scroll == True and stride > 0:
+        scroll_index = scroll_index + stride
+    elif scroll_index > 0 and stride < 0:
+        scroll_index = scroll_index + stride
+    else:
+        return None
+
     if existing_chat_canvas != None:
         try:
             existing_chat_canvas.destroy()
         except Exception:
             pass
-    chat_canvas = tk.Canvas(root, width=366, height=483, highlightthickness=0, background='#e7e7e7')
+
+    chat_canvas = tk.Canvas(root, width=351, height=483, highlightthickness=0, background='#e7e7e7')
     chat_canvas.place(x=22,y=539)
     existing_chat_canvas = chat_canvas
     global my_triangle_icon, their_triangle_icon
@@ -166,10 +176,10 @@ def render_chat():
     if len(index_slice)%2 == 0: 
         start_x = 18; start_y = 470
     else:
-        start_x = 348; start_y = 470
+        start_x = 333; start_y = 470
 
     for index in index_slice:
-        if start_x == 348:
+        if start_x == 333:
             my_message = tk.Label(chat_canvas, text=chat_log[index], wraplength=275, font=('Alte Haas Grotesk', 11, 'bold'), bg=my_chat_bubble_color, fg=my_chat_text_color, justify='left', padx=0, pady=4)
             my_message.update(); my_message_height = my_message.winfo_reqheight(); my_message_width = my_message.winfo_reqwidth()
             if (start_y-my_message_height < y_bound):
@@ -198,11 +208,11 @@ def render_chat():
             chat_canvas.create_rectangle(start_x-8, start_y-8, start_x, start_y-their_message_height, fill=their_chat_bubble_color, outline=their_chat_bubble_color, width=0)
             chat_canvas.create_image(start_x-8, start_y-their_message_height, anchor=tk.NE, image=their_triangle_icon)
             their_message.place(x=start_x, y=start_y, anchor=tk.SW)
-            start_x = 348; start_y = start_y - their_message_height - y_spacing
+            start_x = 333; start_y = start_y - their_message_height - y_spacing
             can_scroll = False
+# -----------------------------End-----------------------------
 
-render_chat()
-
+# -----------------------Initialize Chat-----------------------
 chat_entry = customtkinter.CTkEntry(master=canvas, placeholder_text=" Ask about anything...", corner_radius=8, width=346, height=38, bg_color='White', font=('Alte Haas Grotesk', 15, 'bold'), text_color='Grey30')
 chat_entry.place(x=12, y=1033)
 
@@ -213,10 +223,60 @@ send_icon = customtkinter.CTkImage(light_image=Image.open("assets\\icons\\send.p
 send_button = customtkinter.CTkButton(master=canvas, image=send_icon, text='', width=35, height=37, corner_radius=8, bg_color='White', border_color='White', fg_color='Grey30', hover_color='Grey25')
 send_button.place(x=363, y=1033)
 
+scroll_up_button = customtkinter.CTkButton(master=root, text='▲', width=20, height=20, corner_radius=5, bg_color='#e7e7e7', border_color='#e7e7e7', anchor='center', border_spacing=0, border_width=0, fg_color='Grey30', hover_color='Grey25', command=lambda: render_chat(1))
+scroll_up_button.place(x=376, y=538)
+
+scroll_down_button = customtkinter.CTkButton(master=root, text='▼', width=20, height=20, corner_radius=5, bg_color='#e7e7e7', border_color='#e7e7e7', anchor='center', border_spacing=0, border_width=0, fg_color='Grey30', hover_color='Grey25', command=lambda: render_chat(-1))
+scroll_down_button.place(x=376, y=1004)
+
+render_chat() #Initial Chat Render (just once)
+# -----------------------------End-----------------------------
+
+# ----------------------Custom Clipboard-----------------------
+my_clips = [] # This stores all the clips
+
+clipboard_up_button = customtkinter.CTkButton(master=root, text='▲', width=20, height=20, corner_radius=5, bg_color='#e7e7e7', border_color='#e7e7e7', anchor='center', border_spacing=0, border_width=0, fg_color='Grey30', hover_color='Grey25')
+clipboard_up_button.place(x=376, y=362)
+
+clipboard_down_button = customtkinter.CTkButton(master=root, text='+', width=20, height=20, corner_radius=5, bg_color='#e7e7e7', border_color='#e7e7e7', anchor='center', border_spacing=0, border_width=0, fg_color='Grey30', hover_color='Grey25')
+clipboard_down_button.place(x=376, y=458)
+
+clipboard_icon = Image.open("assets\\icons\\clipboard.png")
+clipboard_icon = clipboard_icon.resize((20, 20), Image.Resampling.LANCZOS)
+alpha = clipboard_icon.split()[-1]
+clipboard_icon = clipboard_icon.convert("RGB")
+clipboard_icon = RGBTransform().mix_with(ImageColor.getcolor('#404040', "RGB"),factor=1).applied_to(clipboard_icon)
+clipboard_icon.putalpha(alpha)
+clipboard_icon = ImageTk.PhotoImage(clipboard_icon)
+canvas.create_image(387, 412, image=clipboard_icon, anchor=tk.CENTER)
+
+clip_label = tk.Label(master=canvas, text='0', bg='#e7e7e7', fg='#404040', borderwidth=0, font=('Alte Haas Grotesk', 10, 'bold'), justify='center')
+clip_label.place(x=387, y=432, anchor=tk.CENTER)
+
+clip_entry = customtkinter.CTkTextbox(master=root, corner_radius=0, width=355, height=111, bg_color='#e7e7e7', fg_color='#e7e7e7', font=('Alte Haas Grotesk', 15, 'bold'), text_color='Grey50', activate_scrollbars=True, wrap=tk.WORD)
+
+def on_entry_click(event):
+   if clip_entry.get('1.0', tk.END).strip() == "You can leave notes here or clip a chat...":
+      clip_entry.delete('1.0', tk.END)
+      clip_entry.configure(text_color="Grey30")
+
+def on_focus_out(event):
+   if clip_entry.get('1.0', tk.END).strip() == "":
+      clip_entry.insert('1.0', "You can leave notes here or clip a chat...")
+      clip_entry.configure(text_color="Grey50")
+
+clip_entry.insert(tk.END, "You can leave notes here or clip a chat...")
+clip_entry.bind("<FocusIn>", on_entry_click)
+clip_entry.bind("<FocusOut>", on_focus_out)
+
+clip_entry.place(x=18, y=365)
+# -----------------------------End-----------------------------
+
 search_icon = customtkinter.CTkImage(light_image=Image.open("assets\\icons\\search.png"),
                                   dark_image=Image.open("assets\\icons\\search.png"),
                                   size=(17, 17))
 
+# -----------------------Drug Search Column--------------------
 drug_search_entry = customtkinter.CTkEntry(master=canvas, placeholder_text="Search for a drug...", corner_radius=8, width=221, height=32, bg_color='White', font=('Alte Haas Grotesk', 13))
 drug_search_entry.place(x=1628, y=101)
 
@@ -234,6 +294,7 @@ drug_list_canvas.place(x=0, y=0)
 scroll_bar = customtkinter.CTkScrollbar(tabview_1.tab("All"), command=drug_list_canvas.yview, height=195)
 drug_list_canvas.config(yscrollcommand=scroll_bar.set)
 scroll_bar.place(x=254, y=-4)
+# -----------------------------End-----------------------------
 
 def generate_tab_1():
     global drug_list_canvas
@@ -278,12 +339,6 @@ test_search_entry.place(x=1628, y=438)
 
 test_search_button = customtkinter.CTkButton(master=canvas, image=search_icon, text='', width=50, height=33, corner_radius=8, bg_color='White', border_color='White')
 test_search_button.place(x=1854, y=437)
-
-scroll_up_button = customtkinter.CTkButton(master=canvas, text='▲', width=20, height=20, corner_radius=5, bg_color='#e7e7e7', border_color='#e7e7e7', anchor='center', border_spacing=0, border_width=0, fg_color='Grey30', hover_color='Grey25')
-scroll_up_button.place(x=500, y=500)
-
-scroll_down_button = customtkinter.CTkButton(master=canvas, text='▼', width=20, height=20, corner_radius=5, bg_color='#e7e7e7', border_color='#e7e7e7', anchor='center', border_spacing=0, border_width=0, fg_color='Grey30', hover_color='Grey25')
-scroll_down_button.place(x=500, y=600)
 
 generate_tab_1()
 generate_tab_2()
