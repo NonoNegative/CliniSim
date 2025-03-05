@@ -10,6 +10,7 @@ from PIL import Image, ImageTk, ImageColor
 from shared.transforms import RGBTransform
 from datetime import datetime
 from functools import partial
+from tkVideoPlayer import TkinterVideo
 # -------------------End-------------------
 
 print(colored(" START ", 'light_grey', 'on_dark_grey'), "Execution Timestamp:", colored(datetime.now(), 'dark_grey'))
@@ -54,7 +55,25 @@ screen_width = root.winfo_screenwidth()
 canvas = tk.Canvas(root, width=screen_width, height=screen_height, highlightthickness=0)
 canvas.pack()
 
-background_image = customtk.create_tk_image('assets\\backgrounds\\sample.jpg', screen_width, screen_height)
+background_image = customtk.create_tk_image('assets\\backgrounds\\sample_snapshot.png', screen_width, screen_height)
+canvas.create_image(0, 0, anchor=tk.NW, image=background_image)
+
+# Load Animation
+video_player = TkinterVideo(canvas, borderwidth=0, bg='Black', fg='black', consistant_frame_rate=True)
+video_player.set_size((430, 684))
+video_player.place(x=960, y=1080, anchor=tk.S)
+video_player.bind("<<Loaded>>", lambda e: e.widget.config(width=430, height=684))
+#video_player.bind("<<SecondChanged>>", lambda e: print(video_player.current_frame_number()))
+video_player.load("content\\animations\\idle.mp4")
+
+def start_video():
+    video_player.seek(0)
+    video_player.play()
+    video_player.after(17500, start_video)
+
+start_video()
+
+
 canvas.create_image(0, 0, anchor=tk.NW, image=background_image)
 
 static_img = customtk.create_tk_image('assets\\static\\static_v2.png', screen_width, screen_height)
@@ -94,8 +113,8 @@ full_profile_icon = customtkinter.CTkImage(light_image=Image.open("assets\\icons
 full_profile_button = customtkinter.CTkButton(master=canvas, image=full_profile_icon, text='View Full Profile', compound=tk.LEFT, font=('Alte Haas Grotesk', 15, 'bold'), width=387, height=33, corner_radius=8, bg_color='White', border_color='White')
 full_profile_button.place(x=12, y=265)
 
-medical_records_icon = customtkinter.CTkImage(light_image=Image.open("assets\\icons\\full_profile.png"),
-                                  dark_image=Image.open("assets\\icons\\full_profile.png"),
+medical_records_icon = customtkinter.CTkImage(light_image=Image.open("assets\\icons\\medical_records.png"),
+                                  dark_image=Image.open("assets\\icons\\medical_records.png"),
                                   size=(20, 20))
 
 medical_records_button = customtkinter.CTkButton(master=canvas, image=medical_records_icon, text='View Medical Records', compound=tk.LEFT, font=('Alte Haas Grotesk', 15, 'bold'), width=387, height=33, corner_radius=8, bg_color='White', border_color='White')
@@ -125,6 +144,11 @@ chat_log.reverse() # ONLY FOR DEBUGGING. Comment this out after debugging...
 # -----------------------Chat Rendering------------------------
 can_scroll = False; scroll_index = 0
 existing_chat_canvas = None
+
+clip_icon = customtkinter.CTkImage(light_image=Image.open("assets\\icons\\clipboard.png"),
+                                  dark_image=Image.open("assets\\icons\\clipboard.png"),
+                                  size=(20, 20))
+
 def render_chat(stride=0):
     # Redraw Canvas
     global chat_canvas, existing_chat_canvas, can_scroll, scroll_index
@@ -208,6 +232,8 @@ def render_chat(stride=0):
             chat_canvas.create_rectangle(start_x-8, start_y-8, start_x, start_y-their_message_height, fill=their_chat_bubble_color, outline=their_chat_bubble_color, width=0)
             chat_canvas.create_image(start_x-8, start_y-their_message_height, anchor=tk.NE, image=their_triangle_icon)
             their_message.place(x=start_x, y=start_y, anchor=tk.SW)
+            clip_button = customtkinter.CTkButton(master=chat_canvas, image=clip_icon, text='', width=15, height=31, corner_radius=8, anchor=tk.CENTER, bg_color='#e7e7e7', fg_color='#e7e7e7', hover_color='#404040', ) 
+            clip_button.place(x=start_x+their_message_width+15, y=start_y-their_message_height, anchor=tk.NW)
             start_x = 333; start_y = start_y - their_message_height - y_spacing
             can_scroll = False
 # -----------------------------End-----------------------------

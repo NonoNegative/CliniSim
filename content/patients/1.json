@@ -1,6 +1,6 @@
 {
-    "name": "Example Patient 1",
+    "name": "John Doe",
     "gender": "Male",
-    "age": 36,
-    "case": "Description."
+    "age": 16,
+    "case": "Vaccines up to date. Plays basketball. No history of concussions or fractures."
 }
