@@ -60,13 +60,26 @@ close_button.bind('<Enter>', lambda x: show_info('Close', 'IndianRed2')); close_
 minimize_button.bind('<Enter>', lambda x: show_info('Minimize', 'Gold')); minimize_button.bind('<Leave>', lambda x: show_info('', 'Gold'))
 test_button.bind('<Enter>', lambda x: show_info('Configure/Launcher', 'Pale Green')); test_button.bind('<Leave>', lambda x: show_info('', 'Pale Green'))
 
-static_img = customtk.create_tk_image('assets\\static\\static_v1.png', 1920, 1080)
+static_img = customtk.create_tk_image('assets\\static\\static_v2.png', 1920, 1080)
 canvas.create_image(0, 0, anchor=tk.NW, image=static_img)
 
 start_chatting_icon_tk = customtk.create_tk_image('assets\\icons\\start_chatting.png', 135, 133)
 start_chatting_icon = canvas.create_image(260, 790, anchor=tk.CENTER, image=start_chatting_icon_tk)
 chat_log = []
-ollama_log = []
+ollama_log = [
+    {
+    'role': 'user',
+    'content': '''Let's roleplay doctor and patient. I am the doctor and you are the patient. You have these following symptoms: 
+    Intellectual disability, distinct facial features (flat face, almond-shaped eyes), short stature, and heart defects.
+    I am doing an examination on you. You can answer my questions. Even if you figure out what disease you got, do NOT reveal it to me.
+    Do not answer with more than 30 words.
+    ''',
+  },
+  {
+    'role': 'assistant',
+    'content': "Okay, I got it.",
+  }
+]
 
 existing_chat_canvas = None
 def render_chat(scroll_index=0):

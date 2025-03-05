@@ -1,0 +1,5 @@
+{
+    "theme": "blue",
+    "drugs": ["Epinephrine", "Vasopressin", "Atropine", "Lidocaine", "Sodium Bicarbonate"],
+    "tests": ["CBC", "Blood Glucose Test", "BMP", "CMP", "Cardiac Biomarkers", "CRP Test"]
+}
