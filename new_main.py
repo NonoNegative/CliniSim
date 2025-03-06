@@ -4,6 +4,7 @@ import shared.customtk as customtk
 import tkinter as tk
 import os, random
 import json
+import shared.functions as ext_funcs
 from colorama import init as colorama_init
 from termcolor import colored
 from PIL import Image, ImageTk, ImageColor
@@ -34,9 +35,9 @@ else:
     primary_color = theme_json['CTkButton']['fg_color'][0] # Primary color of UI
     print(colored(" THEME ", 'light_grey', 'on_magenta'),  f"Sucessfully Loaded: '{selected_color_theme.title()}' from path" , colored(f"'themes\\{selected_color_theme}.json'", 'dark_grey'))
     del theme_json # Why waste memory?
-# -------------------End-------------------
+# --------------------End-------------------
 
-#-----------------Load Content-------------
+#-----------------Load Content--------------
 # Load drugs and tests, imaging, etc...
 drug_list = settings["drugs"]
 test_list = settings["tests"]
@@ -60,7 +61,7 @@ background_image = customtk.create_tk_image('assets\\backgrounds\\sample_snapsho
 canvas.create_image(0, 0, anchor=tk.NW, image=background_image)
 
 # Load Animation
-video_player = TkinterVideo(canvas, borderwidth=0, bg='Black', fg='black', consistant_frame_rate=True)
+'''video_player = TkinterVideo(canvas, borderwidth=0, bg='Black', fg='black', consistant_frame_rate=True)
 video_player.set_size((430, 684))
 video_player.place(x=960, y=1080, anchor=tk.S)
 video_player.bind("<<Loaded>>", lambda e: e.widget.config(width=430, height=684))
@@ -72,7 +73,7 @@ def start_video():
     video_player.play()
     video_player.after(17000, start_video)
 
-start_video()
+start_video()'''
 
 
 canvas.create_image(0, 0, anchor=tk.NW, image=background_image)
@@ -317,36 +318,54 @@ def create_scroll_canvas(tabview, tabname, array):
     root.update()
     list_canvas.configure(scrollregion=list_canvas.bbox("all"))
 
-# -----------------------Drug Search Column--------------------
+# ------------------------Important Checks----------------------
+physical_icon = customtkinter.CTkImage(light_image=Image.open("assets\\icons\\measurement.png"),
+                                  dark_image=Image.open("assets\\icons\\measurement.png"),
+                                  size=(20, 20))
+
+physical_button = customtkinter.CTkButton(master=canvas, image=physical_icon, text='Physical Assessment', compound=tk.LEFT, font=('Alte Haas Grotesk', 15, 'bold'), width=287, height=33, corner_radius=8, bg_color='White', border_color='White')
+physical_button.place(x=1624, y=48)
+
+vitals_icon = customtkinter.CTkImage(light_image=Image.open("assets\\icons\\vitals.png"),
+                                  dark_image=Image.open("assets\\icons\\vitals.png"),
+                                  size=(20, 20))
+
+vitals_button = customtkinter.CTkButton(master=canvas, image=vitals_icon, text='Vitals Check', compound=tk.LEFT, font=('Alte Haas Grotesk', 15, 'bold'), width=287, height=33, corner_radius=8, bg_color='White', border_color='White', command= lambda: ext_funcs.check_vitals(patient['vitals']))
+vitals_button.place(x=1624, y=88)
+
+canvas.create_line(1624, 133, 1911, 133, fill='#e7e7e7', width=4)
+# -----------------------------End------------------------------
+
+# -----------------------Drug Search Column---------------------
 tabview_1 = customtkinter.CTkTabview(master=canvas, width=280, height=240, bg_color='White', corner_radius=7)
 tabview_1._segmented_button.configure(font=('Alte Haas Grotesk', 15, 'bold'))
-tabview_1.place(x=1628, y=134)
+tabview_1.place(x=1628, y=223)
 tabview_1.add("All"); tabview_1.add("Search Results")
 
 drug_search_entry = customtkinter.CTkEntry(master=canvas, placeholder_text="Search for a drug...", corner_radius=8, width=221, height=32, bg_color='White', font=('Alte Haas Grotesk', 13))
-drug_search_entry.place(x=1628, y=101)
+drug_search_entry.place(x=1628, y=190)
 
 drug_search_button = customtkinter.CTkButton(master=canvas, image=search_icon, text='', width=50, height=33, corner_radius=8, bg_color='White', border_color='White')
-drug_search_button.place(x=1854, y=100)
+drug_search_button.place(x=1854, y=189)
 
 create_scroll_canvas(tabview_1, "All", drug_list)
 # -----------------------------End------------------------------
 
-# -----------------------Test Search Column--------------------
+# -----------------------Test Search Column---------------------
 tabview_2 = customtkinter.CTkTabview(master=canvas, width=280, height=240, bg_color='White', corner_radius=7)
 tabview_2._segmented_button.configure(font=('Alte Haas Grotesk', 15, 'bold'))
-tabview_2.place(x=1628, y=471)
+tabview_2.place(x=1628, y=560)
 tabview_2.add("Tests"); tabview_2.add("Imaging")
 
 test_search_entry = customtkinter.CTkEntry(master=canvas, placeholder_text="Search for a test...", corner_radius=8, width=221, height=32, bg_color='White', font=('Alte Haas Grotesk', 13))
-test_search_entry.place(x=1628, y=438)
+test_search_entry.place(x=1628, y=527)
 
 test_search_button = customtkinter.CTkButton(master=canvas, image=search_icon, text='', width=50, height=33, corner_radius=8, bg_color='White', border_color='White')
-test_search_button.place(x=1854, y=437)
+test_search_button.place(x=1854, y=526)
 
 create_scroll_canvas(tabview_2, "Tests", test_list)
 create_scroll_canvas(tabview_2, "Imaging", imaging_list)
-# -----------------------------End-----------------------------
+# -----------------------------End------------------------------
 
 root.mainloop()
 

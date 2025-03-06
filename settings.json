@@ -1,6 +1,6 @@
 {
     "theme": "blue",
     "drugs": ["Iosartan", "Propranolol", "Irbesartan", "Paracetamol"],
-    "tests": ["Vitals Check", "Physical Assessment", "BMP", "CMP", "Cardiac Biomarkers", "CRP Test"],
+    "tests": ["BMP", "CMP", "Cardiac Biomarkers", "CRP Test"],
     "imaging": ["Echocardiogram", "MRA", "Bimicroscopy", "Tonometry", "X-Ray"]
 }
