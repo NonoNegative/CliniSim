@@ -1,5 +1,6 @@
 {
     "theme": "blue",
-    "drugs": ["Epinephrine", "Vasopressin", "Atropine", "Lidocaine", "Sodium Bicarbonate"],
-    "tests": ["CBC", "Blood Glucose Test", "BMP", "CMP", "Cardiac Biomarkers", "CRP Test"]
+    "drugs": ["Iosartan", "Propranolol", "Irbesartan", "Paracetamol"],
+    "tests": ["Vitals Check", "Physical Assessment", "BMP", "CMP", "Cardiac Biomarkers", "CRP Test"],
+    "imaging": ["Echocardiogram", "MRA", "Bimicroscopy", "Tonometry", "X-Ray"]
 }

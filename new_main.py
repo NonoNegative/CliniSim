@@ -37,9 +37,10 @@ else:
 # -------------------End-------------------
 
 #-----------------Load Content-------------
-# Load drugs and tests
+# Load drugs and tests, imaging, etc...
 drug_list = settings["drugs"]
 test_list = settings["tests"]
+imaging_list = settings["imaging"]
 with open('content\\medicines\\medicines.json') as file:
     drug_dict = json.load(file)
 
@@ -344,6 +345,7 @@ test_search_button = customtkinter.CTkButton(master=canvas, image=search_icon, t
 test_search_button.place(x=1854, y=437)
 
 create_scroll_canvas(tabview_2, "Tests", test_list)
+create_scroll_canvas(tabview_2, "Imaging", imaging_list)
 # -----------------------------End-----------------------------
 
 root.mainloop()
