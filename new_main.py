@@ -69,7 +69,7 @@ video_player.load("content\\animations\\idle.mp4")
 def start_video():
     video_player.seek(0)
     video_player.play()
-    video_player.after(17500, start_video)
+    video_player.after(17000, start_video)
 
 start_video()
 
@@ -302,63 +302,40 @@ search_icon = customtkinter.CTkImage(light_image=Image.open("assets\\icons\\sear
                                   dark_image=Image.open("assets\\icons\\search.png"),
                                   size=(17, 17))
 
+def create_scroll_canvas(tabview, tabname, array):
+    list_canvas = tk.Canvas(tabview.tab(tabname), width=252, height=187, highlightthickness=0, background=tabview_1.cget('fg_color')[0])
+    list_canvas.place(x=0, y=0)
+    scroll_bar = customtkinter.CTkScrollbar(tabview.tab(tabname), command=list_canvas.yview, height=195)
+    list_canvas.config(yscrollcommand=scroll_bar.set)
+    scroll_bar.place(x=254, y=-4)
+    y = 0  # Initial y pos
+    for entry in array:
+        button = customtkinter.CTkButton(master=list_canvas, text=entry, font=('Alte Haas Grotesk', 15, 'bold'), width=252, height=33, corner_radius=7, bg_color=tabview_1.cget('fg_color')[0])
+        list_canvas.create_window(0, y, window=button, anchor=tk.NW)
+        y = y + 38
+    root.update()
+    list_canvas.configure(scrollregion=list_canvas.bbox("all"))
+
 # -----------------------Drug Search Column--------------------
+tabview_1 = customtkinter.CTkTabview(master=canvas, width=280, height=240, bg_color='White', corner_radius=7)
+tabview_1._segmented_button.configure(font=('Alte Haas Grotesk', 15, 'bold'))
+tabview_1.place(x=1628, y=134)
+tabview_1.add("All"); tabview_1.add("Search Results")
+
 drug_search_entry = customtkinter.CTkEntry(master=canvas, placeholder_text="Search for a drug...", corner_radius=8, width=221, height=32, bg_color='White', font=('Alte Haas Grotesk', 13))
 drug_search_entry.place(x=1628, y=101)
 
 drug_search_button = customtkinter.CTkButton(master=canvas, image=search_icon, text='', width=50, height=33, corner_radius=8, bg_color='White', border_color='White')
 drug_search_button.place(x=1854, y=100)
 
-tabview_1 = customtkinter.CTkTabview(master=canvas, width=280, height=240, bg_color='White', corner_radius=7)
-tabview_1._segmented_button.configure(font=('Alte Haas Grotesk', 15, 'bold'))
-tabview_1.place(x=1628, y=134)
-tabview_1.add("All"); tabview_1.add("Search Results")
+create_scroll_canvas(tabview_1, "All", drug_list)
+# -----------------------------End------------------------------
 
-# Tab 1 ("All")
-drug_list_canvas = tk.Canvas(tabview_1.tab("All"), width=252, height=187, highlightthickness=0, background=tabview_1.cget('fg_color')[0])
-drug_list_canvas.place(x=0, y=0)
-scroll_bar = customtkinter.CTkScrollbar(tabview_1.tab("All"), command=drug_list_canvas.yview, height=195)
-drug_list_canvas.config(yscrollcommand=scroll_bar.set)
-scroll_bar.place(x=254, y=-4)
-# -----------------------------End-----------------------------
-
-def generate_tab_1():
-    global drug_list_canvas
-    y = 0  # Initial y pos
-    for drug in drug_list:
-        drug_button = customtkinter.CTkButton(master=drug_list_canvas, text=drug, font=('Alte Haas Grotesk', 15, 'bold'), width=252, height=33, corner_radius=7, bg_color=tabview_1.cget('fg_color')[0])
-        drug_list_canvas.create_window(0, y, window=drug_button, anchor=tk.NW)
-        y = y + 38
-    root.update()
-    drug_list_canvas.configure(scrollregion=drug_list_canvas.bbox("all"))
-
-test_search_entry = customtkinter.CTkEntry(master=canvas, placeholder_text="Search fr a test...", corner_radius=8, width=221, height=32, bg_color='White', font=('Alte Haas Grotesk', 13))
-test_search_entry.place(x=1628, y=438)
-
-test_search_button = customtkinter.CTkButton(master=canvas, image=search_icon, text='', width=50, height=33, corner_radius=8, bg_color='White', border_color='White')
-test_search_button.place(x=1854, y=437)
-
+# -----------------------Test Search Column--------------------
 tabview_2 = customtkinter.CTkTabview(master=canvas, width=280, height=240, bg_color='White', corner_radius=7)
 tabview_2._segmented_button.configure(font=('Alte Haas Grotesk', 15, 'bold'))
 tabview_2.place(x=1628, y=471)
 tabview_2.add("Tests"); tabview_2.add("Imaging")
-
-# Tab 1 ("All")
-test_list_canvas = tk.Canvas(tabview_2.tab("Tests"), width=252, height=187, highlightthickness=0, background=tabview_2.cget('fg_color')[0])
-test_list_canvas.place(x=0, y=0)
-scroll_bar_2 = customtkinter.CTkScrollbar(tabview_2.tab("Tests"), command=test_list_canvas.yview, height=195)
-test_list_canvas.config(yscrollcommand=scroll_bar_2.set)
-scroll_bar_2.place(x=254, y=-4)
-
-def generate_tab_2():
-    global test_list_canvas
-    y = 0  # Initial y pos
-    for test in test_list:
-        test_button = customtkinter.CTkButton(master=test_list_canvas, text=test, font=('Alte Haas Grotesk', 15, 'bold'), width=252, height=33, corner_radius=7, bg_color=tabview_2.cget('fg_color')[0])
-        test_list_canvas.create_window(0, y, window=test_button, anchor=tk.NW)
-        y = y + 38
-    root.update()
-    test_list_canvas.configure(scrollregion=test_list_canvas.bbox("all"))
 
 test_search_entry = customtkinter.CTkEntry(master=canvas, placeholder_text="Search for a test...", corner_radius=8, width=221, height=32, bg_color='White', font=('Alte Haas Grotesk', 13))
 test_search_entry.place(x=1628, y=438)
@@ -366,8 +343,8 @@ test_search_entry.place(x=1628, y=438)
 test_search_button = customtkinter.CTkButton(master=canvas, image=search_icon, text='', width=50, height=33, corner_radius=8, bg_color='White', border_color='White')
 test_search_button.place(x=1854, y=437)
 
-generate_tab_1()
-generate_tab_2()
+create_scroll_canvas(tabview_2, "Tests", test_list)
+# -----------------------------End-----------------------------
 
 root.mainloop()
 
