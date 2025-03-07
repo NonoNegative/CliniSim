@@ -323,7 +323,7 @@ physical_icon = customtkinter.CTkImage(light_image=Image.open("assets\\icons\\me
                                   dark_image=Image.open("assets\\icons\\measurement.png"),
                                   size=(20, 20))
 
-physical_button = customtkinter.CTkButton(master=canvas, image=physical_icon, text='Physical Assessment', compound=tk.LEFT, font=('Alte Haas Grotesk', 15, 'bold'), width=287, height=33, corner_radius=8, bg_color='White', border_color='White')
+physical_button = customtkinter.CTkButton(master=canvas, image=physical_icon, text='Physical Assessment', compound=tk.LEFT, font=('Alte Haas Grotesk', 15, 'bold'), width=287, height=33, corner_radius=8, bg_color='White', border_color='White', command= lambda: ext_funcs.view_image("content\\avatars\\1.png", attached_note='Yoooooooo'))
 physical_button.place(x=1624, y=48)
 
 vitals_icon = customtkinter.CTkImage(light_image=Image.open("assets\\icons\\vitals.png"),
@@ -368,4 +368,3 @@ create_scroll_canvas(tabview_2, "Imaging", imaging_list)
 # -----------------------------End------------------------------
 
 root.mainloop()
-

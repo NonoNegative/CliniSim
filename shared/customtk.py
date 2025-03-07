@@ -2,9 +2,10 @@ import tkinter as tk
 from PIL import Image, ImageTk, ImageColor
 import tkinter.messagebox as messagebox
 
-def create_tk_image(img_path, size_x, size_y):
+def create_tk_image(img_path, size_x=None, size_y=None):
     image = Image.open(img_path)
-    image = image.resize((size_x, size_y), Image.Resampling.LANCZOS)
+    if size_x!=None and size_y!=None:
+        image = image.resize((size_x, size_y), Image.Resampling.LANCZOS)
     image = ImageTk.PhotoImage(image)
     return image
 
