@@ -1,7 +1,8 @@
-# import customtkinter
+import customtkinter
 import shared.customtk as customtk
 import tkinter as tk
 from shared.tkgif import GifLabel
+from datetime import datetime
 
 def create_top_level(title, width=600, height=600, load_captions=['Loading', 2000], bg_color='#f0f0f0'):
     image_toplevel = tk.Toplevel(); image_toplevel.wm_attributes('-toolwindow', 'true')
@@ -47,7 +48,8 @@ def check_vitals(vitals):
         value = vitals.get(key, "N/A")
         my_top.canvas.create_text(x*0.6, y*0.6, text=value, font=('Alte Haas Grotesk', 12, 'bold'), fill='grey30', anchor='nw')
 
-def get_label_height(text, width, font=('Alte Haas Grotesk', 12)):
+font=('Alte Haas Grotesk', 12)
+def get_label_height(text, width):
     root = tk.Tk() 
     root.withdraw()  
 
@@ -59,8 +61,26 @@ def get_label_height(text, width, font=('Alte Haas Grotesk', 12)):
 
     return height
 
-def view_image(img_path, size_x=None, size_y=None, attached_note=None, load_captions=['Please Wait...', 500, 'Retrieving Image...', 2000, 'Processing...', 1000]):
-    my_image = customtk.create_tk_image(img_path)
-    my_top = create_top_level('Vitals Check', my_image.width() if size_x == None else size_x, my_image.height() if size_y == None else size_y, load_captions)
+def view_image(img_path, size_x=None, size_y=None, attached_note="No further info was attached with this image.", load_captions=['Please Wait...', 500, 'Retrieving Image...', 2000, 'Processing...', 1000]):
+    my_image = customtk.create_tk_image(img_path, size_x, size_y)
+    width = my_image.width(); height = my_image.height()
+    dynamic_note_ht = get_label_height(attached_note, width=width-20)
+    note_button_height = 30; entry_height = 40; buttons_height = 30; padding = 50
+    extra_height = note_button_height + dynamic_note_ht + entry_height + buttons_height + padding
+    my_top = create_top_level('Vitals Check', my_image.width() if size_x == None else size_x, my_image.height() + extra_height if size_y == None else size_y + extra_height, load_captions)
     my_top.canvas.create_image(0, 0, anchor=tk.NW, image=my_image)
     my_top.canvas.image = my_image
+    my_top.canvas.create_line(10, height+20, width-15, height+20, fill='#e3e3e3', width=4)
+    note_button = customtkinter.CTkButton(my_top, height=20, corner_radius=7, text='Attached Note', font=('Alte Haas Grotesk', 15, 'bold'), text_color='White')
+    note_button.place(x=width/2, y=height+20, anchor=tk.CENTER)
+    note_label = tk.Label(master=my_top, text=attached_note, fg='Grey40', bg='#f0f0f0', font=font, wraplength=width-20, justify='center')
+    note_label.place(x=width/2, y=height+35, anchor=tk.N)
+    my_top.canvas.create_line(10, height+note_button_height+dynamic_note_ht+15, width-15, height+note_button_height+dynamic_note_ht+15, fill='#e3e3e3', width=4)
+    height = height+note_button_height+dynamic_note_ht+30
+    inference_entry = customtkinter.CTkEntry(master=my_top.canvas, placeholder_text=" Do you infer anything from this image?", corner_radius=8, width=width-20, height=entry_height, bg_color='White', font=('Alte Haas Grotesk', 15), text_color='Grey10', placeholder_text_color='Grey50')
+    inference_entry.place(x=10, y=height, anchor=tk.NW)
+    save_button = customtkinter.CTkButton(my_top, height=30, corner_radius=6, text='Save', font=('Alte Haas Grotesk', 15, 'bold'), text_color='White', width=100)
+    save_button.place(x=width-10, y=height+entry_height+10, anchor=tk.NE)
+    discard_button = customtkinter.CTkButton(my_top, height=30, corner_radius=6, text='Discard', font=('Alte Haas Grotesk', 15, 'bold'), text_color='White', width=100, fg_color='IndianRed2', hover_color='IndianRed4')
+    discard_button.place(x=width-120, y=height+entry_height+10, anchor=tk.NE)
+    my_top.canvas.create_text(12, height+entry_height+40, text="Timestamp: "+ str(datetime.now()), font=('Cascadia Code', 10), fill='Grey60', anchor=tk.SW)
