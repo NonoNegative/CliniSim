@@ -18,5 +18,9 @@
         "MRA": ["content\\images\\mra.png", "Anteposterior and lateral digital radiography of the chest."],
         "Tonometry": ["content\\images\\tonometry.png", "Ocular findings of the patient using slit-lamp exam."],
         "X-Ray": ["content\\images\\xray.png", "There appears to be a slight curvature of the spine."]
+    },
+
+    "Tests": {
+        "FBN1 Mutation" : ["content\\images\\fbn1.png", "Sanger sequence diagram of the proband."] 
     }
 }

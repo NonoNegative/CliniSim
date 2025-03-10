@@ -13,6 +13,8 @@ from shared.transforms import RGBTransform
 from datetime import datetime
 from functools import partial
 from tkVideoPlayer import TkinterVideo
+from tkinter import messagebox
+from shared.action_history import dll as action_history
 # -------------------End-------------------
 
 print(colored(" START ", 'light_grey', 'on_dark_grey'), "Execution Timestamp:", colored(datetime.now(), 'dark_grey'))
@@ -58,11 +60,11 @@ screen_width = root.winfo_screenwidth()
 canvas = tk.Canvas(root, width=screen_width, height=screen_height, highlightthickness=0)
 canvas.pack()
 
-background_image = customtk.create_tk_image('assets\\backgrounds\\sample_snapshot.png', screen_width, screen_height)
+background_image = customtk.create_tk_image('assets\\backgrounds\\sample2.jpg', screen_width, screen_height)
 canvas.create_image(0, 0, anchor=tk.NW, image=background_image)
 
 # Load Animation
-'''video_player = TkinterVideo(canvas, borderwidth=0, bg='Black', fg='black', consistant_frame_rate=True)
+video_player = TkinterVideo(canvas, borderwidth=0, bg='Black', fg='black', consistant_frame_rate=True)
 video_player.set_size((430, 684))
 video_player.place(x=960, y=1080, anchor=tk.S)
 video_player.bind("<<Loaded>>", lambda e: e.widget.config(width=430, height=684))
@@ -74,7 +76,7 @@ def start_video():
     video_player.play()
     video_player.after(17000, start_video)
 
-start_video()'''
+start_video()
 
 canvas.create_image(0, 0, anchor=tk.NW, image=background_image)
 
@@ -90,7 +92,7 @@ color_static.putalpha(alpha)
 color_static = ImageTk.PhotoImage(color_static)
 canvas.create_image(0, 0 ,anchor=tk.NW, image=color_static)
 
-drawer_width = 350; drawer_height = 42
+drawer_width = 215; drawer_height = 42
 drawer_edge_1 = customtk.create_tk_image("assets\\icons\\drawer.png", drawer_height, drawer_height)
 drawer_edge_2 = customtk.create_tk_image("assets\\icons\\drawer.png", drawer_height, drawer_height, flip=1)
 canvas.create_rectangle((screen_width-drawer_width)//2, 0, (screen_width+drawer_width)//2, drawer_height, fill='#f3f3f3', width=0)
@@ -113,17 +115,14 @@ ScoreL.place(x=((screen_width-drawer_width)//2) - 12, y=5, anchor=tk.NW)
 canvas.after(1000, update_timer)
 finish_button = customtkinter.CTkButton(canvas, height=30, corner_radius=10, text='Finish', font=('Alte Haas Grotesk', 15, 'bold'), text_color='White', width=70)
 finish_button.place(x=((screen_width+drawer_width)//2)+12, y=5, anchor=tk.NE)
-halt_button = customtkinter.CTkButton(canvas, height=30, corner_radius=10, text='Halt', font=('Alte Haas Grotesk', 15, 'bold'), text_color='White', width=60, fg_color='IndianRed2', hover_color='IndianRed4')
+halt_button = customtkinter.CTkButton(canvas, height=30, corner_radius=10, text='Halt', font=('Alte Haas Grotesk', 15, 'bold'), text_color='White', width=60, fg_color='IndianRed2', hover_color='IndianRed4', command=quit)
 halt_button.place(x=((screen_width+drawer_width)//2)-63, y=5, anchor=tk.NE)
 
 eye_icon = customtkinter.CTkImage(light_image=Image.open("assets\\icons\\eye.png"),
                                 dark_image=Image.open("assets\\icons\\eye.png"),
                                 size=(20, 20))
 
-interactive_button = customtkinter.CTkButton(canvas, height=30, corner_radius=10, image = eye_icon ,text='Interactive', compound=tk.LEFT, font=('Alte Haas Grotesk', 15, 'bold'), text_color='White', width=90, fg_color='Grey40', hover_color='Grey30')
-interactive_button.place(x=((screen_width)//2)+35, y=5, anchor=tk.NE)
-
-canvas.create_line(((screen_width)//2)+43, 4, ((screen_width)//2)+43, drawer_height-4, fill='#e3e3e3', width=4)
+canvas.create_line(((screen_width)//2)-26, 4, ((screen_width)//2)-26, drawer_height-4, fill='#e3e3e3', width=4)
 
 # ------------------------End------------------------
 
@@ -155,7 +154,7 @@ medical_records_icon = customtkinter.CTkImage(light_image=Image.open("assets\\ic
                                   dark_image=Image.open("assets\\icons\\medical_records.png"),
                                   size=(20, 20))
 
-medical_records_button = customtkinter.CTkButton(master=canvas, image=medical_records_icon, text='View Action History', compound=tk.LEFT, font=('Alte Haas Grotesk', 15, 'bold'), width=387, height=33, corner_radius=8, bg_color='White', border_color='White')
+medical_records_button = customtkinter.CTkButton(master=canvas, image=medical_records_icon, text='View Action History', compound=tk.LEFT, font=('Alte Haas Grotesk', 15, 'bold'), width=387, height=33, corner_radius=8, bg_color='White', border_color='White', command=ext_funcs.show_action_history)
 medical_records_button.place(x=12, y=305)
 
 canvas.create_line(13, 350, 397, 350, fill='#e7e7e7', width=4)
@@ -403,7 +402,7 @@ physical_icon = customtkinter.CTkImage(light_image=Image.open("assets\\icons\\me
                                   dark_image=Image.open("assets\\icons\\measurement.png"),
                                   size=(20, 20))
 
-physical_button = customtkinter.CTkButton(master=canvas, image=physical_icon, text='Physical Assessment', compound=tk.LEFT, font=('Alte Haas Grotesk', 15, 'bold'), width=287, height=33, corner_radius=8, bg_color='White', border_color='White')
+physical_button = customtkinter.CTkButton(master=canvas, image=physical_icon, text='Physical Assessment', compound=tk.LEFT, font=('Alte Haas Grotesk', 15, 'bold'), width=287, height=33, corner_radius=8, bg_color='White', border_color='White', command = ext_funcs.physical_assessment)
 physical_button.place(x=1624, y=48)
 
 vitals_icon = customtkinter.CTkImage(light_image=Image.open("assets\\icons\\vitals.png"),
@@ -440,6 +439,8 @@ prescribe_button.place(x=1628, y=638)
 drug_name_label = customtkinter.CTkLabel(master=canvas, text="None", font=('Alte Haas Grotesk', 12, 'bold'), width=162, height=23, corner_radius=6, bg_color='White', fg_color="#e7e7e7", text_color='Grey25')
 drug_name_label.place(x=1745, y=527, anchor=tk.NW)
 
+prescribe_button.configure(command= lambda: ext_funcs.prescribe(drug_name_label.cget('text')))
+
 drug_desc_label = customtkinter.CTkLabel(master=canvas, text="Select a drug to view its description.", font=('Alte Haas Grotesk', 12), width=160, height=74, bg_color='White', fg_color="White", wraplength=162, justify='left', anchor=tk.NW, text_color='Grey20')
 drug_desc_label.place(x=1747, y=554, anchor=tk.NW)
 
@@ -475,15 +476,18 @@ create_scroll_canvas(tabview_2, "Imaging", imaging_list, 'test')
 # -----------------------------End------------------------------
 
 # --------------------------Diagnose----------------------------
-chat_entry = customtkinter.CTkEntry(master=canvas, placeholder_text=" Diagnose...", corner_radius=8, width=242, height=38, bg_color='White', font=('Alte Haas Grotesk', 15, 'bold'), text_color='Grey30')
-chat_entry.place(x=1628, y=1033)
+diag_entry = customtkinter.CTkEntry(master=canvas, placeholder_text=" Diagnose...", corner_radius=8, width=242, height=38, bg_color='White', font=('Alte Haas Grotesk', 15, 'bold'), text_color='Grey30')
+diag_entry.place(x=1628, y=1033)
 
-send_icon = customtkinter.CTkImage(light_image=Image.open("assets\\icons\\check.png"),
+diag_icon = customtkinter.CTkImage(light_image=Image.open("assets\\icons\\check.png"),
                                   dark_image=Image.open("assets\\icons\\check.png"),
                                   size=(17, 17))
+def incorrect_guess(val):
+    action_history.append(["Incorrectly Diagnosed", val])
+    messagebox.showerror("Incorrect diagnosis!", "Incorrect diagnosis!\n\nThat is not the right answer!")
 
-send_button = customtkinter.CTkButton(master=canvas, image=send_icon, text='', width=35, height=37, corner_radius=8, bg_color='White', border_color='White', fg_color='Grey30', hover_color='Grey25')
-send_button.place(x=1874, y=1033)
+diag_button = customtkinter.CTkButton(master=canvas, image=diag_icon, text='', width=35, height=37, corner_radius=8, bg_color='White', border_color='White', fg_color='Grey30', hover_color='Grey25', command= lambda: ext_funcs.calc_systemic_score() if (diag_entry.get().lower)() in ['mfs', 'marfan', 'marfan syndrome'] else lambda: incorrect_guess(diag_entry.get()))
+diag_button.place(x=1874, y=1033)
 # -----------------------------End------------------------------
 
 root.mainloop()

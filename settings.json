@@ -2,6 +2,6 @@
     "theme": "blue",
     "time_limit": 300,
     "drugs": ["Enalapril", "Losartan", "Propranolol", "Irbesartan", "Paracetamol"],
-    "tests": ["BMP", "CMP", "Cardiac Biomarkers", "CRP Test"],
+    "tests": ["FBN1 Mutation", "BMP", "CMP", "Cardiac Biomarkers", "CRP Test"],
     "imaging": ["Echocardiogram", "MRA", "Bimicroscopy", "Tonometry", "X-Ray"]
 }
