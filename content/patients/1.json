@@ -10,5 +10,13 @@
         "Resp": "18 Breaths/Min",
         "BP": "120/60",
         "SPO2": "100%"
+    },
+
+    "Imaging": {
+        "Bimicroscopy" : ["content\\images\\bimicroscopy.png"],
+        "Echocardiogram": ["content\\images\\echocardiogram.png", "Echocardiographic long axis image."],
+        "MRA": ["content\\images\\mra.png", "Anteposterior and lateral digital radiography of the chest."],
+        "Tonometry": ["content\\images\\tonometry.png", "Ocular findings of the patient using slit-lamp exam."],
+        "X-Ray": ["content\\images\\xray.png", "There appears to be a slight curvature of the spine."]
     }
 }

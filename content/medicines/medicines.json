@@ -1,6 +1,6 @@
 {
-    "Epinephrine": {
-        "description" : "Administered every 3-5 minutes early in CPR (every other cycle) for asystole, ventricular fibrillation, PEA.",
+    "Enalapril": {
+        "description" : "ACE inhibitor reducing blood pressure by preventing angiotensin II formation, promoting vasodilation and sodium excretion.",
         "recommended_dosage": {
             "adult" : 0,
             "paed" : 0,
@@ -8,8 +8,8 @@
         }
     },
 
-    "Vasopressin": {
-        "description" : "As an alternative to epinephrine every 3-5 minutes (every second BLS cycle) for asystole, bradycardia, PEA.",
+    "Losartan": {
+        "description" : "Angiotensin II receptor blocker (ARB) lowering blood pressure by inhibiting vasoconstriction and aldosterone secretion.",
         "recommended_dosage": {
             "adult" : 0,
             "paed" : 0,
@@ -17,8 +17,8 @@
         }
     },
 
-    "Atropine": {
-        "description" : "Sinus bradycardia, asystole, or PEA associated with high vagal tone.",
+    "Propranolol": {
+        "description" : "Non-selective beta-blocker reducing heart rate and blood pressure by inhibiting \u03B21 and \u03B22 adrenergic receptors.",
         "recommended_dosage": {
             "adult" : 0,
             "paed" : 0,
@@ -26,8 +26,8 @@
         }
     },
 
-    "Lidocaine": {
-        "description" : "Pulseless ventricular tachycardia, ventricular fibrillation resistant to defibrillation.",
+    "Irbesartan": {
+        "description" : "ARB blocking angiotensin II receptors, reducing vasoconstriction and aldosterone effects to lower blood pressure.",
         "recommended_dosage": {
             "adult" : 0,
             "paed" : 0,
@@ -35,8 +35,8 @@
         }
     },
 
-    "Sodium Bicarbonate": {
-        "description" : "Severe metabolic acidemia (pH < 7.0) associated with prolonged CPR efforts (must be adequately ventilated to be effective), hyperkalemia.",
+    "Paracetamol": {
+        "description" : "Analgesic and antipyretic inhibiting cyclooxygenase (COX) enzymes in the CNS, reducing pain and fever.",
         "recommended_dosage": {
             "adult" : 0,
             "paed" : 0,
