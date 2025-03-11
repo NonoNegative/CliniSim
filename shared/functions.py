@@ -105,7 +105,7 @@ def infer_image(img_path, window_name, size_x=None, size_y=None, attached_note="
     my_top.canvas.create_text(12, height+entry_height+40, text="Timestamp: "+ str(datetime.now()), font=('Cascadia Code', 10), fill='Grey60', anchor=tk.SW)
 
 def open_pdf(title, location, p_width=1000, p_height=1414):
-    action_history.append("Viewed Patient Profile")
+    action_history.append(["Viewed Patient Profile"])
     my_top = create_top_level(title, 1000, 900, load_captions=['Reading Document...', 1000, 'Opening in Viewer...', 400])
     pdf_frame = CTkPDFViewer(my_top, file=location, page_width=p_width, page_height=p_height)
     pdf_frame.pack(fill="both", expand=True, padx=10, pady=10)
@@ -113,7 +113,6 @@ def open_pdf(title, location, p_width=1000, p_height=1414):
 
 def save_presc(my_top, drug, dose_val, dose_int):
     my_top.destroy()
-    print(dose_val, dose_int)
     if dose_int == 'Select...' or dose_val.strip() == '':
         messagebox.showerror("Error!", "Invalid or empty parameters passed!")
     else:
@@ -245,7 +244,7 @@ def physical_assessment():
 
 def calc_systemic_score():
 
-    action_history.append("Correctly Diagnosed", "Marfan Syndrome")
+    action_history.append(["Correctly Diagnosed", "Marfan Syndrome"])
     messagebox.showinfo("Correctly Diagnosed!", "Congratulations!\n\nYou have correctly identified Marfan Syndrome.\n\nIt's now time to calculate the systemic score.")
 
     my_top = create_top_level('Systemic Scoring', 800, 850, load_captions=['Loading...', 1000])
@@ -302,13 +301,10 @@ def calc_systemic_score():
     
     y_offset += 50
     my_top.canvas.create_line(20, y_offset, 780, y_offset, fill="#CCCCCC")
-    
-    def save():
-        return None
 
     save_button = customtkinter.CTkButton(
         my_top, height=30, corner_radius=6, text='Finalize', font=('Alte Haas Grotesk', 15, 'bold'),
-        text_color='White', width=100, command=save
+        text_color='White', width=100, command=lambda: print(action_history.to_list())
     )
     save_button.place(x=405, y=830, anchor=tk.SW)
 

@@ -15,6 +15,10 @@ from functools import partial
 from tkVideoPlayer import TkinterVideo
 from tkinter import messagebox
 from shared.action_history import dll as action_history
+from shared.action_history import dll_expected as op_procedure
+import asyncio
+from ollama import AsyncClient
+from shared.tkgif import GifLabel
 # -------------------End-------------------
 
 print(colored(" START ", 'light_grey', 'on_dark_grey'), "Execution Timestamp:", colored(datetime.now(), 'dark_grey'))
@@ -60,7 +64,7 @@ screen_width = root.winfo_screenwidth()
 canvas = tk.Canvas(root, width=screen_width, height=screen_height, highlightthickness=0)
 canvas.pack()
 
-background_image = customtk.create_tk_image('assets\\backgrounds\\sample2.jpg', screen_width, screen_height)
+background_image = customtk.create_tk_image('assets\\backgrounds\\sample_snapshot.png', screen_width, screen_height)
 canvas.create_image(0, 0, anchor=tk.NW, image=background_image)
 
 # Load Animation
@@ -74,7 +78,8 @@ video_player.load("content\\animations\\idle.mp4")
 def start_video():
     video_player.seek(0)
     video_player.play()
-    video_player.after(17000, start_video)
+    root.after(16000, start_video)
+    video_player.update_idletasks()
 
 start_video()
 
@@ -113,10 +118,6 @@ def update_timer():
 ScoreL = tk.Label(canvas, text='🕑 '+time.strftime('%M:%S', time.gmtime(time_elapsed)), bg='#f3f3f3', fg='Grey30', font=("Alte Haas Grotesk", 15, 'bold'), justify='left')
 ScoreL.place(x=((screen_width-drawer_width)//2) - 12, y=5, anchor=tk.NW)
 canvas.after(1000, update_timer)
-finish_button = customtkinter.CTkButton(canvas, height=30, corner_radius=10, text='Finish', font=('Alte Haas Grotesk', 15, 'bold'), text_color='White', width=70)
-finish_button.place(x=((screen_width+drawer_width)//2)+12, y=5, anchor=tk.NE)
-halt_button = customtkinter.CTkButton(canvas, height=30, corner_radius=10, text='Halt', font=('Alte Haas Grotesk', 15, 'bold'), text_color='White', width=60, fg_color='IndianRed2', hover_color='IndianRed4', command=quit)
-halt_button.place(x=((screen_width+drawer_width)//2)-63, y=5, anchor=tk.NE)
 
 eye_icon = customtkinter.CTkImage(light_image=Image.open("assets\\icons\\eye.png"),
                                 dark_image=Image.open("assets\\icons\\eye.png"),
@@ -163,19 +164,8 @@ canvas.create_line(13, 350, 397, 350, fill='#e7e7e7', width=4)
 # --------------------------Chat Log---------------------------
 start_chatting_icon_tk = customtk.create_tk_image('assets\\icons\\start_chatting.png', 135, 133)
 start_chatting_icon = canvas.create_image(207, 804, anchor=tk.CENTER, image=start_chatting_icon_tk)
-chat_log = [
-    "Hi!",
-    "Hello! How's it going?",
-    "I'm doing well, thanks for asking. How about you?",
-    "I'm good too! Just busy with work.",
-    "Ah, I get that. What are you working on?",
-    "Just some coding projects. Nothing too exciting.",
-    "That sounds interesting! What kind of projects?",
-    "Mostly web development stuff. React and Django.",
-    "Nice! I've been thinking about learning React.",
-    "You should! It's pretty fun once you get the hang of it."
-]
-chat_log.reverse() # ONLY FOR DEBUGGING. Comment this out after debugging...
+chat_log = []
+ollama_log = settings['ollama_log']
 # -----------------------------End-----------------------------
 
 # -----------------------Chat Rendering------------------------
@@ -190,14 +180,15 @@ def render_chat(stride=0):
     # Redraw Canvas
     global chat_canvas, existing_chat_canvas, can_scroll, scroll_index
 
-    if scroll_index == 0 and existing_chat_canvas == None:
+    #print(scroll_index, can_scroll, existing_chat_canvas, stride)
+    '''if scroll_index == 0 and existing_chat_canvas == None:
         pass
     elif can_scroll == True and stride > 0:
         scroll_index = scroll_index + stride
     elif scroll_index > 0 and stride < 0:
         scroll_index = scroll_index + stride
     else:
-        return None
+        return None'''
 
     if existing_chat_canvas != None:
         try:
@@ -273,17 +264,51 @@ def render_chat(stride=0):
             clip_button.place(x=start_x+their_message_width+15, y=start_y-their_message_height, anchor=tk.NW)
             start_x = 333; start_y = start_y - their_message_height - y_spacing
             can_scroll = False
+    chat_canvas.update_idletasks()
+
+async def chat_with_ollama(message):
+  response = await AsyncClient().chat(model='llama3.2', messages=ollama_log+[{'role': 'user', 'content': message}])
+  ollama_log.extend([
+    {'role': 'user', 'content': message},
+    {'role': 'assistant', 'content': response.message.content}])
+  return response['message']['content']
+  
+can_send_message = True
+def bot_reply(message):
+    global ind, can_send_message, chat_log
+    chat_log[0] = message
+    #print(chat_log)
+    render_chat()
+    can_send_message = True
+
+def wait_for_message():
+    chat_log.insert(0, '       ')
+    render_chat()
+    gif_label = GifLabel(chat_canvas, bd=0)
+    gif_label.place(x=20, y=462, anchor=tk.SW)
+    gif_label.load("assets\\icons\\waiting_2.gif")
+    chat_canvas.after(1600, lambda: bot_reply(asyncio.run(chat_with_ollama(chat_log[1]))))
+
+def send_message(message):
+    global chat_log, can_send_message
+    if can_send_message == True:
+        can_send_message = False
+        chat_msg_var.set("")
+        chat_log.insert(0, message)
+        render_chat()
+        chat_canvas.after(500, wait_for_message)
 # -----------------------------End-----------------------------
 
 # -----------------------Initialize Chat-----------------------
-chat_entry = customtkinter.CTkEntry(master=canvas, placeholder_text=" Ask about anything...", corner_radius=8, width=346, height=38, bg_color='White', font=('Alte Haas Grotesk', 15, 'bold'), text_color='Grey30')
+chat_msg_var=tk.StringVar()
+chat_entry = customtkinter.CTkEntry(master=canvas, textvariable=chat_msg_var, placeholder_text=" Ask about anything...", corner_radius=8, width=346, height=38, bg_color='White', font=('Alte Haas Grotesk', 15, 'bold'), text_color='Grey30')
 chat_entry.place(x=12, y=1033)
 
 send_icon = customtkinter.CTkImage(light_image=Image.open("assets\\icons\\send.png"),
                                   dark_image=Image.open("assets\\icons\\send.png"),
                                   size=(17, 17))
 
-send_button = customtkinter.CTkButton(master=canvas, image=send_icon, text='', width=35, height=37, corner_radius=8, bg_color='White', border_color='White', fg_color='Grey30', hover_color='Grey25')
+send_button = customtkinter.CTkButton(master=canvas, image=send_icon, text='', width=35, height=37, corner_radius=8, bg_color='White', border_color='White', fg_color='Grey30', hover_color='Grey25', command=lambda: send_message(chat_msg_var.get()))
 send_button.place(x=363, y=1033)
 
 scroll_up_button = customtkinter.CTkButton(master=root, text='▲', width=20, height=20, corner_radius=5, bg_color='#e7e7e7', border_color='#e7e7e7', anchor='center', border_spacing=0, border_width=0, fg_color='Grey30', hover_color='Grey25', command=lambda: render_chat(1))
@@ -291,8 +316,6 @@ scroll_up_button.place(x=376, y=538)
 
 scroll_down_button = customtkinter.CTkButton(master=root, text='▼', width=20, height=20, corner_radius=5, bg_color='#e7e7e7', border_color='#e7e7e7', anchor='center', border_spacing=0, border_width=0, fg_color='Grey30', hover_color='Grey25', command=lambda: render_chat(-1))
 scroll_down_button.place(x=376, y=1004)
-
-render_chat() #Initial Chat Render (just once)
 # -----------------------------End-----------------------------
 
 # ----------------------Custom Clipboard-----------------------
@@ -489,5 +512,20 @@ def incorrect_guess(val):
 diag_button = customtkinter.CTkButton(master=canvas, image=diag_icon, text='', width=35, height=37, corner_radius=8, bg_color='White', border_color='White', fg_color='Grey30', hover_color='Grey25', command= lambda: ext_funcs.calc_systemic_score() if (diag_entry.get().lower)() in ['mfs', 'marfan', 'marfan syndrome'] else lambda: incorrect_guess(diag_entry.get()))
 diag_button.place(x=1874, y=1033)
 # -----------------------------End------------------------------
+
+async def final_score():
+    dll_e_string = '\n'.join([' | '.join(sublist) for sublist in op_procedure])
+    dll_m_string = '\n'.join([' | '.join(sublist) for sublist in action_history.to_list()]) 
+
+    message = {'role': 'user', 'content': f'I want you to compare these 2 operational procedures. This is the expected procedure: \n{dll_e_string}\n\n And this is the users procedure: \n{dll_m_string}\n\n Compare these two and give a score out of 100 for the user on how accurate their replication of the actual procedure is. Reply with ONLY the score, for example "70/100". Nothing else should be said in your message. Be very fair in your grading. If the user has done poor, then do not hold back to give them a low score. Try to be very fair as possible and give as much as a low score as you possibly can.'
+               }
+    response = await AsyncClient().chat(model='llama3.2', messages=[message])
+    score = response['message']['content']
+    messagebox.showinfo("Your final score", f"Your final score is {score}")
+
+finish_button = customtkinter.CTkButton(canvas, height=30, corner_radius=10, text='Finish', font=('Alte Haas Grotesk', 15, 'bold'), text_color='White', width=70, command=lambda: asyncio.run(final_score()))
+finish_button.place(x=((screen_width+drawer_width)//2)+12, y=5, anchor=tk.NE)
+halt_button = customtkinter.CTkButton(canvas, height=30, corner_radius=10, text='Halt', font=('Alte Haas Grotesk', 15, 'bold'), text_color='White', width=60, fg_color='IndianRed2', hover_color='IndianRed4', command=quit)
+halt_button.place(x=((screen_width+drawer_width)//2)-63, y=5, anchor=tk.NE)
 
 root.mainloop()
