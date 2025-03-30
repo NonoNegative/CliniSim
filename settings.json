@@ -1,13 +1,12 @@
 {
     "theme": "blue",
+
     "time_limit": 300,
-    "drugs": ["Enalapril", "Losartan", "Propranolol", "Irbesartan", "Paracetamol"],
-    "tests": ["FBN1 Mutation", "BMP", "CMP", "Cardiac Biomarkers", "CRP Test"],
-    "imaging": ["Echocardiogram", "MRA", "Bimicroscopy", "Tonometry", "X-Ray"],
+
     "ollama_log": [
         {
         "role": "user",
-        "content": "You are a patient diagnosed with Marfan syndrome, consulting a doctor (me). Speak professionally, clearly describe your symptoms, and answer concisely in under 30 words. Do not exaggerate or add unnecessary details. You have unusually long fingers, with some measuring over 10 cm, and a hand length of approximately 24 cm. Your fingernails have a slight bluish tint, your knuckles appear pronounced, and you have some callus formation near your finger joints. Your palate is high-arched at 4.5 cm, your face shows slight asymmetry, your eyes are deep-set with a downward slant, your nose bridge is unusually flat, and your ears are proportionally larger than expected. You are taller than 190 cm, weigh less than 70 kg, and have an arm span of approximately 208 cm, exceeding your height. You experience mild joint hypermobility, have flat feet with inward pronation while walking, and a slight curvature in your leg bones, though your mobility remains unaffected. You have a pigeon chest with a 3 cm protrusion, an 18-degree spinal curvature, visible misalignment of the clavicle, a slightly compressed thoracic region, and prominent shoulder blades. Your eyes have a lens dislocation at a 15-degree angle, severe myopia exceeding -8.00 diopters, minor cataracts despite your young age, and slightly lighter iris pigmentation than expected. Cardiovascular concerns include aortic dilation at 4.1 cm, heart rate variability without definitive arrhythmia, a mild murmur without valvular regurgitation, normal blood pressure despite structural abnormalities, and a slightly widened pulse pressure without immediate risk factors. Don't be too factual and very precise with the numbers and all, but although remain cooperative, and professional in your responses. You do not know that you have this disease. I will be examining you. Do NOT exceed 30 words. Do not be playful or use any of those * * expressions or emoticons EVER."
+        "content": ""
       },
       {
         "role": "assistant",

@@ -1,0 +1,113 @@
+{
+
+"Disease": "Marfan Syndrome",
+
+"Guesses": ["marfan synrome", "marfan's syndrome", "mfs", "marfan", "mafan's disease", "marfan Disease"],
+
+"Patient": {
+    "name": "John Doe",
+    "gender": "Male",
+    "age": 16,
+    "case": "Vaccines up to date. Plays basketball. No history of concussions or fractures.",
+
+    "vitals": {
+        "Temp": "98.8 \u00b0F\n(Oral)",
+        "Pulse": "60 BPM",
+        "Resp": "18 Breaths/Min",
+        "BP": "120/60",
+        "SPO2": "100%"
+    }
+},
+
+"Initial_prompt": "You are a patient diagnosed with Marfan syndrome, consulting a doctor (me). Speak professionally, clearly describe your symptoms, and answer concisely in under 30 words. Do not exaggerate or add unnecessary details. You have unusually long fingers, with some measuring over 10 cm, and a hand length of approximately 24 cm. Your fingernails have a slight bluish tint, your knuckles appear pronounced, and you have some callus formation near your finger joints. Your palate is high-arched at 4.5 cm, your face shows slight asymmetry, your eyes are deep-set with a downward slant, your nose bridge is unusually flat, and your ears are proportionally larger than expected. You are taller than 190 cm, weigh less than 70 kg, and have an arm span of approximately 208 cm, exceeding your height. You experience mild joint hypermobility, have flat feet with inward pronation while walking, and a slight curvature in your leg bones, though your mobility remains unaffected. You have a pigeon chest with a 3 cm protrusion, an 18-degree spinal curvature, visible misalignment of the clavicle, a slightly compressed thoracic region, and prominent shoulder blades. Your eyes have a lens dislocation at a 15-degree angle, severe myopia exceeding -8.00 diopters, minor cataracts despite your young age, and slightly lighter iris pigmentation than expected. Cardiovascular concerns include aortic dilation at 4.1 cm, heart rate variability without definitive arrhythmia, a mild murmur without valvular regurgitation, normal blood pressure despite structural abnormalities, and a slightly widened pulse pressure without immediate risk factors. Don't be too factual and very precise with the numbers and all, but although remain cooperative, and professional in your responses. You do not know that you have this disease. I will be examining you. Do NOT exceed 30 words. Do not be playful or use any of those * * expressions or emoticons EVER.",
+
+"Imaging": {
+        "Bimicroscopy" : ["content\\diseases\\marfan\\images\\bimicroscopy.png"],
+        "Echocardiogram": ["content\\diseases\\marfan\\images\\echocardiogram.png", "Echocardiographic long axis image."],
+        "MRA": ["content\\diseases\\marfan\\images\\mra.png", "Anteposterior and lateral digital radiography of the chest."],
+        "Tonometry": ["content\\diseases\\marfan\\images\\tonometry.png", "Ocular findings of the patient using slit-lamp exam."],
+        "X-Ray": ["content\\diseases\\marfan\\images\\xray.png", "There appears to be a slight curvature of the spine."]
+    },
+
+"Tests": {
+        "FBN1 Mutation" : ["content\\diseases\\marfan\\images\\fbn1.png", "Sanger sequence diagram of the proband."] 
+    },
+
+"Features": {
+        "Hands": [
+            "Hand length appears to be approximately 24 cm, significantly longer than average.",
+            "Fingers display an elongated structure, with some measuring over 10 cm.",
+            "Slight bluish tint in fingernails observed.",
+            "Unusual callus formation near finger joints.",
+            "Knuckles appear more pronounced than typical hand structures."
+        ],
+        "Face": [
+            "Palate measures 4.5 cm in height, giving a high-arched appearance.",
+            "Facial asymmetry noted, but within normal variation.",
+            "Deep-set eyes with a downward slant, yet no abnormalities in vision detected.",
+            "Nose bridge unusually flat despite overall elongated facial structure.",
+            "Ears proportionally larger than expected, yet hearing remains unaffected."
+        ],
+        "Body": [
+            "Height surpasses 190 cm, with weight remaining under 70 kg.",
+            "Arm span measured at 208 cm, exceeding height by a noticeable margin.",
+            "Mild hypermobility in certain joints, but range of motion remains normal.",
+            "Feet appear flat, with mild inward pronation during walking.",
+            "Slight curvature in leg bones, but no significant mobility issues reported."
+        ],
+        "Chest & Spine": [
+            "Pigeon chest with a 3 cm protrusion observed, no reported breathing difficulties.",
+            "Spinal curvature of 18 degrees noted, but posture remains unaffected.",
+            "Visible misalignment of the clavicle, though range of movement remains intact.",
+            "Thoracic region appears slightly compressed compared to standard proportions.",
+            "Shoulder blades unusually prominent when viewed from the back."
+        ],
+        "Eyes": [
+            "Lens dislocation at an angle of 15 degrees detected upon close examination.",
+            "Severe myopia, with prescription exceeding -8.00 diopters.",
+            "Pupils react normally to light, ruling out potential neurological concerns.",
+            "Presence of minor cataracts despite young age.",
+            "Iris pigmentation slightly lighter than expected for genetic background."
+        ],
+        "Cardiovascular": [
+            "Aortic dilation measured at 4.1 cm, within borderline concern range.",
+            "Heart rate variability observed, but no definitive arrhythmia diagnosed.",
+            "Mild murmur detected, yet no valvular regurgitation present.",
+            "Normal blood pressure readings, despite structural abnormalities.",
+            "Pulse pressure remains slightly widened, but no immediate risk factors noted."
+        ]
+    },
+
+"Systemic Score" : {
+        "Wrist AND thumb sign (+3)": 3,
+        "Wrist OR thumb sign (+1)": 1,
+        "Pectus carinatum deformity (+2)": 2,
+        "Pectus excavatum or chest asymmetry (+1)": 1,
+        "Hindfoot deformity (+2)": 2,
+        "Plain flat foot (pes planus) (+1)": 1,
+        "Pneumothorax (+2)": 2,
+        "Dural ectasia (+2)": 2,
+        "Protrusio acetabuli (+2)": 2,
+        "Reduced upper segment/lower segment AND increased arm span/height ratios (+1)": 1,
+        "Scoliosis or thoracolumbar kyphosis (+1)": 1,
+        "Reduced elbow extension (+1)": 1,
+        "3 of 5 facial features (+1)": 1,
+        "Skin striae (+1)": 1,
+        "Myopia (+1)": 1,
+        "MVP (+1)": 1
+    },
+
+"Expected Procedure": [
+        ["Simulation Started"], 
+        ["Checked Patient's Vitals"], 
+        ["Viewed Patient Profile"], 
+        ["Physical Assessment", "Examined the patient"], 
+        ["Analyzed X-Ray Results", "Scoliosis (20 degrees)"], 
+        ["Analyzed Bimicroscopy Results", "Ectopia Lentis"], 
+        ["Analyzed Echocardiogram Results", "Aortic root dilation"], 
+        ["Analyzed MRA Results", "Left ventricular dilation"], 
+        ["Prescribed Enalapril", "20 mg | Once Daily (OD)"], 
+        ["Prescribed Losartan", "50 mg | Twice Daily (BID)"], 
+        ["Correctly Diagnosed", "Marfan Syndrome"]
+    ]
+}

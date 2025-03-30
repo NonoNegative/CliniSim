@@ -164,59 +164,13 @@ def prescribe(drug):
     )
     discard_button.place(x=280, y=165, anchor=tk.NE)
 
-def physical_assessment():
+def physical_assessment(disease_features):
     action_history.append(['Physical Assessment', 'Examined the patient'])
     my_top = create_top_level('Physical Assessment Results', 800, 600, load_captions=['Assessing Patient...', 2000])
     scroll_bar = customtkinter.CTkScrollbar(my_top.canvas, command=my_top.canvas.yview, height=600)
     my_top.canvas.config(yscrollcommand=scroll_bar.set)
     scroll_bar.place(x=783, y=0)
-    
-    # Dictionary containing the physical attributes of Marfan Syndrome with added misleading and specific details
-    marfan_features = {
-        "Hands": [
-            "Hand length appears to be approximately 24 cm, significantly longer than average.",
-            "Fingers display an elongated structure, with some measuring over 10 cm.",
-            "Slight bluish tint in fingernails observed.",
-            "Unusual callus formation near finger joints.",
-            "Knuckles appear more pronounced than typical hand structures."
-        ],
-        "Face": [
-            "Palate measures 4.5 cm in height, giving a high-arched appearance.",
-            "Facial asymmetry noted, but within normal variation.",
-            "Deep-set eyes with a downward slant, yet no abnormalities in vision detected.",
-            "Nose bridge unusually flat despite overall elongated facial structure.",
-            "Ears proportionally larger than expected, yet hearing remains unaffected."
-        ],
-        "Body": [
-            "Height surpasses 190 cm, with weight remaining under 70 kg.",
-            "Arm span measured at 208 cm, exceeding height by a noticeable margin.",
-            "Mild hypermobility in certain joints, but range of motion remains normal.",
-            "Feet appear flat, with mild inward pronation during walking.",
-            "Slight curvature in leg bones, but no significant mobility issues reported."
-        ],
-        "Chest & Spine": [
-            "Pigeon chest with a 3 cm protrusion observed, no reported breathing difficulties.",
-            "Spinal curvature of 18 degrees noted, but posture remains unaffected.",
-            "Visible misalignment of the clavicle, though range of movement remains intact.",
-            "Thoracic region appears slightly compressed compared to standard proportions.",
-            "Shoulder blades unusually prominent when viewed from the back."
-        ],
-        "Eyes": [
-            "Lens dislocation at an angle of 15 degrees detected upon close examination.",
-            "Severe myopia, with prescription exceeding -8.00 diopters.",
-            "Pupils react normally to light, ruling out potential neurological concerns.",
-            "Presence of minor cataracts despite young age.",
-            "Iris pigmentation slightly lighter than expected for genetic background."
-        ],
-        "Cardiovascular": [
-            "Aortic dilation measured at 4.1 cm, within borderline concern range.",
-            "Heart rate variability observed, but no definitive arrhythmia diagnosed.",
-            "Mild murmur detected, yet no valvular regurgitation present.",
-            "Normal blood pressure readings, despite structural abnormalities.",
-            "Pulse pressure remains slightly widened, but no immediate risk factors noted."
-        ]
-    }
-    
+
     # Display the assessment on the canvas
     y_offset = 20
     my_top.canvas.create_line(20, y_offset, 780, y_offset, fill="#CCCCCC")
@@ -228,7 +182,7 @@ def physical_assessment():
     my_top.canvas.create_line(20, y_offset, 780, y_offset, fill="#CCCCCC")
     y_offset += 40
     
-    for category, features in marfan_features.items():
+    for category, features in disease_features.items():
         my_top.canvas.create_text(20, y_offset, text=category, font=("Montilla Ex ExtraBold DEMO", 14, "bold"), anchor='w', fill='Grey20')
         y_offset += 35
         
@@ -242,31 +196,12 @@ def physical_assessment():
     
     my_top.canvas.config(scrollregion=(0, 0, 800, y_offset))
 
-def calc_systemic_score():
+def calc_systemic_score(disease, systemic_scores):
 
-    action_history.append(["Correctly Diagnosed", "Marfan Syndrome"])
-    messagebox.showinfo("Correctly Diagnosed!", "Congratulations!\n\nYou have correctly identified Marfan Syndrome.\n\nIt's now time to calculate the systemic score.")
+    action_history.append(["Correctly Diagnosed", disease])
+    messagebox.showinfo("Correctly Diagnosed!", f"Congratulations!\n\nYou have correctly identified {disease}.\n\nIt's now time to calculate the systemic score.")
 
     my_top = create_top_level('Systemic Scoring', 800, 850, load_captions=['Loading...', 1000])
-    
-    systemic_scores = {
-        "Wrist AND thumb sign (+3)": 3,
-        "Wrist OR thumb sign (+1)": 1,
-        "Pectus carinatum deformity (+2)": 2,
-        "Pectus excavatum or chest asymmetry (+1)": 1,
-        "Hindfoot deformity (+2)": 2,
-        "Plain flat foot (pes planus) (+1)": 1,
-        "Pneumothorax (+2)": 2,
-        "Dural ectasia (+2)": 2,
-        "Protrusio acetabuli (+2)": 2,
-        "Reduced upper segment/lower segment AND increased arm span/height ratios (+1)": 1,
-        "Scoliosis or thoracolumbar kyphosis (+1)": 1,
-        "Reduced elbow extension (+1)": 1,
-        "3 of 5 facial features (+1)": 1,
-        "Skin striae (+1)": 1,
-        "Myopia (+1)": 1,
-        "MVP (+1)": 1
-    }
     
     y_offset = 20
     my_top.canvas.create_line(20, y_offset, 780, y_offset, fill="#CCCCCC")
