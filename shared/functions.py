@@ -309,7 +309,7 @@ def show_action_history():
     tab_2_canvas.config(yscrollcommand=scroll_bar_2.set)
     scroll_bar_2.place(x=930, y=-4)
 
-def show_final_score(score):
+def show_final_score(score, comment_text=""):
     my_top = create_top_level('Final Score', 600, 700, load_captions=['Loading...', 500])
     my_top.canvas.create_text(300, 40, text="Your Final Score", font=("Montilla Ex ExtraBold DEMO", 20, "bold"), anchor='center', fill='Grey20')
     my_top.canvas.create_line(20, 70, 580, 70, fill='Grey60', width=3)
@@ -327,3 +327,22 @@ def show_final_score(score):
     my_top.canvas.create_text(300, 240, text=str(score), font=('The Bold Font', 40), fill='Grey30', anchor='center')
     my_top.canvas.create_line(255, 270, 345, 270, fill='Grey60', width=3)
     my_top.canvas.create_text(300, 300, text=100, font=('The Bold Font', 40), fill='Grey30', anchor='center')
+    my_top.canvas.create_text(20, 480, text="Comments", font=("Montilla Ex ExtraBold DEMO", 15, "bold"), anchor=tk.W, fill='Grey40')
+    my_top.canvas.create_line(20, 500, 580, 500, fill='Grey60', width=3)
+    comment = customtkinter.CTkTextbox(master=my_top.canvas, corner_radius=3, width=560, height=140, bg_color='#f0f0f0', fg_color='#d8d8d8', font=('Alte Haas Grotesk', 15, 'bold'), text_color='Grey30', activate_scrollbars=True, wrap=tk.WORD)
+    comment.insert("0.0", comment_text)
+    comment.configure(state="disabled")
+    comment.place(x=20, y=512, anchor=tk.NW)
+
+    save_button = customtkinter.CTkButton(
+        my_top, height=30, corner_radius=6, text=' Save Score ', font=('Alte Haas Grotesk', 15, 'bold'),
+        text_color='White', width=100
+    )
+    save_button.place(x=305, y=690, anchor=tk.SW)
+
+    end_button = customtkinter.CTkButton(
+        my_top, height=30, corner_radius=6, text=' End Simulation ', font=('Alte Haas Grotesk', 15, 'bold'),
+        text_color='White', width=100, fg_color='IndianRed2', hover_color='IndianRed4',
+        command=my_top.destroy  # Use command instead of function
+    )
+    end_button.place(x=295, y=690, anchor=tk.SE)

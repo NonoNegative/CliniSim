@@ -18,7 +18,7 @@ from shared.action_history import dll as action_history
 import asyncio
 # -------------------End-------------------
 
-debug = True
+debug = False
 dont_render_video = True
 
 if not debug:
@@ -540,17 +540,25 @@ diag_button.place(x=1874, y=1033)
 async def final_score():
 
     if debug:
-        ext_funcs.show_final_score(random.randint(0, 100))
+        ext_funcs.show_final_score(random.randint(0, 100), 'This is a test.')
         return None
     
     dll_e_string = '\n'.join([' | '.join(sublist) for sublist in disease_json['Expected Procedure']])
     dll_m_string = '\n'.join([' | '.join(sublist) for sublist in action_history.to_list()]) 
 
-    message = {'role': 'user', 'content': f'I want you to compare these 2 operational procedures. This is the expected procedure: \n{dll_e_string}\n\n And this is the users procedure: \n{dll_m_string}\n\n Compare these two and give a score out of 100 for the user on how accurate their replication of the actual procedure is. Reply with ONLY the score, for example "70/100". Nothing else should be said in your message. Be very fair in your grading. If the user has done poor, then do not hold back to give them a low score. Try to be very fair as possible and give as much as a low score as you possibly can.'
+    message = {'role': 'user', 'content': f'I want you to compare these 2 operational procedures. This is the expected procedure: \n{dll_e_string}\n\n And this is the users procedure: \n{dll_m_string}\n\n Compare these two and give a score out of 100 for the user on how accurate their replication of the actual procedure is. Reply with ONLY the score, for example "70". Nothing else should be said in your message. Be very fair in your grading. If the user has done poor, then do not hold back to give them a low score. Try to be very fair as possible and give as much as a low score as you possibly can. IMPORTANT NOTE: Do not consider the first simulation started block in the procedure. It simply exists to mark the beginning of the procedure.'
                }
     response = await AsyncClient().chat(model='llama3.2', messages=[message])
+
     score = int(response['message']['content'])
-    ext_funcs.show_final_score(score)
+
+    message = {'role': 'user', 'content': f"I want you to compare these 2 operational procedures. This is the expected procedure: \n{dll_e_string}\n\n And this is the users procedure: \n{dll_m_string}\n\n From the comparison, you have given a score of {score}/100. What is your reason for giving this exact score? Address the user directly. Use pronouns like 'you' to address the user directly. Also do not use any text formatting symbols like * because those will not be displayed in your final displayed message. However you may use - to indicate bullet points. Be straightforward and authoritative, not saying things like 'I'd be happy to help' or any follow up towards the end of your message. Your message must contain the essential reviews of the procedure and that is it. Also the expected procedure is baked into the software, so the user does not know what the expected procedure is. You are simply expected to compare and review."
+               }
+    response = await AsyncClient().chat(model='llama3.2', messages=[message])
+
+    comment = response['message']['content']
+
+    ext_funcs.show_final_score(score, comment)
 
 finish_button = customtkinter.CTkButton(canvas, height=30, corner_radius=10, text='Finish', font=('Alte Haas Grotesk', 15, 'bold'), text_color='White', width=70, command=lambda: asyncio.run(final_score()))
 finish_button.place(x=((screen_width+drawer_width)//2)+12, y=5, anchor=tk.NE)
