@@ -308,3 +308,22 @@ def show_action_history():
     scroll_bar_2 = customtkinter.CTkScrollbar(tabview_1.tab("Operational Procedure"), command=tab_2_canvas.yview, height=880)
     tab_2_canvas.config(yscrollcommand=scroll_bar_2.set)
     scroll_bar_2.place(x=930, y=-4)
+
+def show_final_score(score):
+    my_top = create_top_level('Final Score', 600, 700, load_captions=['Loading...', 500])
+    my_top.canvas.create_text(300, 40, text="Your Final Score", font=("Montilla Ex ExtraBold DEMO", 20, "bold"), anchor='center', fill='Grey20')
+    my_top.canvas.create_line(20, 70, 580, 70, fill='Grey60', width=3)
+    if score <= 30:
+        color = 'firebrick1'
+    elif score > 30 and score <= 60:
+        color = 'gold2'
+    elif score > 60 and score <= 80:
+        color = 'dark orange'
+    else:
+        color = 'SpringGreen2'
+    my_top.canvas.create_oval(150, 120, 450, 420, fill='Grey80', width=0)
+    my_top.canvas.create_arc(150, 120, 450, 420, fill=color, outline=color, width=0, start=90, extent=-int((score/100)*360))
+    my_top.canvas.create_oval(180, 150, 420, 390, fill='White', width=0)
+    my_top.canvas.create_text(300, 240, text=str(score), font=('The Bold Font', 40), fill='Grey30', anchor='center')
+    my_top.canvas.create_line(255, 270, 345, 270, fill='Grey60', width=3)
+    my_top.canvas.create_text(300, 300, text=100, font=('The Bold Font', 40), fill='Grey30', anchor='center')
