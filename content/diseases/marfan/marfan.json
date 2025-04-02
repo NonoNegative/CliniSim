@@ -108,7 +108,7 @@
         ["Analyzed MRA Results", "Left ventricular dilation"], 
         ["Prescribed Enalapril", "20 mg | Once Daily (OD)"], 
         ["Prescribed Losartan", "50 mg | Twice Daily (BID)"], 
-        ["Calculated Systemic Score", 9],
-        ["Correctly Diagnosed", "Marfan Syndrome"]
+        ["Correctly Diagnosed", "Marfan Syndrome"],
+        ["Calculated Systemic Score", 9]
     ]
 }

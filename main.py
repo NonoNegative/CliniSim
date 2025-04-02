@@ -168,7 +168,7 @@ medical_records_icon = customtkinter.CTkImage(light_image=Image.open("assets\\ic
                                   dark_image=Image.open("assets\\icons\\medical_records.png"),
                                   size=(20, 20))
 
-medical_records_button = customtkinter.CTkButton(master=canvas, image=medical_records_icon, text='View Action History', compound=tk.LEFT, font=('Alte Haas Grotesk', 15, 'bold'), width=387, height=33, corner_radius=8, bg_color='White', border_color='White', command=ext_funcs.show_action_history)
+medical_records_button = customtkinter.CTkButton(master=canvas, image=medical_records_icon, text='View Action History', compound=tk.LEFT, font=('Alte Haas Grotesk', 15, 'bold'), width=387, height=33, corner_radius=8, bg_color='White', border_color='White', command=lambda: ext_funcs.show_action_history(disease_json['Expected Procedure']))
 medical_records_button.place(x=12, y=305)
 
 canvas.create_line(13, 350, 397, 350, fill='#e7e7e7', width=4)
@@ -531,7 +531,11 @@ diag_icon = customtkinter.CTkImage(light_image=Image.open("assets\\icons\\check.
                                   dark_image=Image.open("assets\\icons\\check.png"),
                                   size=(17, 17))
 def incorrect_guess(val):
-    action_history.append(["Incorrectly Diagnosed", val])
+    if val.replace(' ', '') == '':
+
+        action_history.append(["Incorrectly Diagnosed", 'No input'])
+    else:
+        action_history.append(["Incorrectly Diagnosed", val])
     messagebox.showerror("Incorrect diagnosis!", "Incorrect diagnosis!\n\nThat is not the right answer!")
 
 diag_button = customtkinter.CTkButton(master=canvas, image=diag_icon, text='', width=35, height=37, corner_radius=8, bg_color='White', border_color='White', fg_color='Grey30', hover_color='Grey25', command= lambda: ext_funcs.calc_systemic_score(disease_json['Disease'], disease_json['Systemic Score']) if (diag_entry.get().lower)() in disease_json['Guesses'] else incorrect_guess(diag_entry.get()))

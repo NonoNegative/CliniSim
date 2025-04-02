@@ -6,6 +6,7 @@ from datetime import datetime
 from shared.CTkPDFViewer import *
 from tkinter import messagebox
 from shared.action_history import dll as action_history
+from shared.linked_list import LinkedList
 
 def create_top_level(title, width=600, height=600, load_captions=['Loading', 2000], bg_color='#f0f0f0'):
     image_toplevel = tk.Toplevel(); image_toplevel.wm_attributes('-toolwindow', 'true')
@@ -53,6 +54,7 @@ def check_vitals(vitals):
         my_top.canvas.create_text(x*0.6, y*0.6, text=value, font=('Alte Haas Grotesk', 12, 'bold'), fill='grey30', anchor='nw')
 
 font=('Alte Haas Grotesk', 12)
+
 def get_label_height(text, width):
     root = tk.Tk() 
     root.withdraw()  
@@ -256,7 +258,7 @@ def calc_systemic_score(disease, systemic_scores):
     )
     discard_button.place(x=395, y=830, anchor=tk.SE)
 
-def show_action_history():
+def show_action_history(expected_arr):
     my_top = create_top_level('Action History', 1000, 950, load_captions=['Loading...', 500])
     tabview_1 = customtkinter.CTkTabview(master=my_top.canvas, width=960, height=930, bg_color='#f0f0f0', corner_radius=7)
     tabview_1._segmented_button.configure(font=('Alte Haas Grotesk', 15, 'bold'))
@@ -314,6 +316,50 @@ def show_action_history():
     scroll_bar_2 = customtkinter.CTkScrollbar(tabview_1.tab("Operational Procedure"), command=tab_2_canvas.yview, height=880)
     tab_2_canvas.config(yscrollcommand=scroll_bar_2.set)
     scroll_bar_2.place(x=930, y=-4)
+
+    dll_expected = LinkedList()
+    for item in expected_arr:
+        dll_expected.append(item)
+        
+        # Visualization of the linked list
+    y_position = 40  # Initial Y position
+    x_position = 470  # X position for buttons
+    node = dll_expected.head  # Start from the head of the linked list
+
+    tab_2_canvas.create_line(500, 0, 500, 40, width=4, fill=tabview_1.cget('fg_color')[0])
+
+    while node:
+        values = node.data  # Extract list from linked list node
+        if values:
+            element = customtkinter.CTkSegmentedButton(
+                master=tab_2_canvas,
+                values=values,
+                font=('Alte Haas Grotesk', 14, 'bold'),
+                corner_radius=7,
+                height=40,
+                state=tk.DISABLED,
+                text_color_disabled='White',
+                selected_color='Indianred2'
+            )
+            element.set(values[0])  # Set first element as selected value
+            tab_2_canvas.create_window(x_position, y_position, window=element, anchor=tk.CENTER)
+            
+            # Draw an arrow to the next node
+            if node.next:
+                tab_2_canvas.create_line(
+                    x_position, y_position + 20,  # Start of the arrow (right side of the button)
+                    x_position, y_position + 80,  # Middle point of the arrow
+                    arrow=tk.LAST, fill="black", width=4
+                )
+            
+            y_position += 100  # Move down for the next element
+        
+        node = node.next  # Move to the next node
+
+    tab_2_canvas.create_line(500, y_position, 500, y_position+10, width=4, fill=tabview_1.cget('fg_color')[0])
+    
+    my_top.update()
+    tab_2_canvas.configure(scrollregion=tab_2_canvas.bbox("all"))
 
 def show_final_score(score, comment_text=""):
     my_top = create_top_level('Final Score', 600, 700, load_captions=['Loading...', 500])
