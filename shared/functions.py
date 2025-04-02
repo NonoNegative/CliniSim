@@ -237,9 +237,15 @@ def calc_systemic_score(disease, systemic_scores):
     y_offset += 50
     my_top.canvas.create_line(20, y_offset, 780, y_offset, fill="#CCCCCC")
 
+    def save_fn():
+        my_top.destroy()
+        action_history.append(["Calculated Systemic Score", total_score.get()])
+        print(action_history.to_list())
+        messagebox.showinfo("Save successful", "Your results have been saved successfully.\n\nYou may now end the simulation.")
+
     save_button = customtkinter.CTkButton(
         my_top, height=30, corner_radius=6, text='Finalize', font=('Alte Haas Grotesk', 15, 'bold'),
-        text_color='White', width=100, command=lambda: print(action_history.to_list())
+        text_color='White', width=100, command=save_fn
     )
     save_button.place(x=405, y=830, anchor=tk.SW)
 
@@ -329,7 +335,7 @@ def show_final_score(score, comment_text=""):
     my_top.canvas.create_text(300, 300, text=100, font=('The Bold Font', 40), fill='Grey30', anchor='center')
     my_top.canvas.create_text(20, 480, text="Comments", font=("Montilla Ex ExtraBold DEMO", 15, "bold"), anchor=tk.W, fill='Grey40')
     my_top.canvas.create_line(20, 500, 580, 500, fill='Grey60', width=3)
-    comment = customtkinter.CTkTextbox(master=my_top.canvas, corner_radius=3, width=560, height=140, bg_color='#f0f0f0', fg_color='#d8d8d8', font=('Alte Haas Grotesk', 15, 'bold'), text_color='Grey30', activate_scrollbars=True, wrap=tk.WORD)
+    comment = customtkinter.CTkTextbox(master=my_top.canvas, corner_radius=12, width=560, height=140, bg_color='#f0f0f0', fg_color='#d8d8d8', font=('Alte Haas Grotesk', 15, 'bold'), text_color='Grey40', activate_scrollbars=True, wrap=tk.WORD)
     comment.insert("0.0", comment_text)
     comment.configure(state="disabled")
     comment.place(x=20, y=512, anchor=tk.NW)

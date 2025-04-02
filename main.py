@@ -18,7 +18,7 @@ from shared.action_history import dll as action_history
 import asyncio
 # -------------------End-------------------
 
-debug = False
+debug = True
 dont_render_video = True
 
 if not debug:
@@ -319,6 +319,7 @@ def send_message(message):
 # -----------------------Initialize Chat-----------------------
 chat_msg_var=tk.StringVar()
 chat_entry = customtkinter.CTkEntry(master=canvas, textvariable=chat_msg_var, placeholder_text=" Ask about anything...", corner_radius=8, width=346, height=38, bg_color='White', font=('Alte Haas Grotesk', 15, 'bold'), text_color='Grey30')
+chat_msg_var.set(" Ask about anything...")
 chat_entry.place(x=12, y=1033)
 
 send_icon = customtkinter.CTkImage(light_image=Image.open("assets\\icons\\send.png"),
