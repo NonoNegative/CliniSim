@@ -445,6 +445,7 @@ def create_scroll_canvas(tabview, tabname, array, type):
         list_canvas.create_window(0, y, window=button, anchor=tk.NW)
         y = y + 38
     list_canvas.configure(scrollregion=list_canvas.bbox("all"))
+    return list_canvas
 
 # ------------------------Important Checks----------------------
 physical_icon = customtkinter.CTkImage(light_image=Image.open("assets\\icons\\measurement.png"),
@@ -473,7 +474,16 @@ tabview_1.add("All"); tabview_1.add("Search Results")
 drug_search_entry = customtkinter.CTkEntry(master=canvas, placeholder_text="Search for a drug...", corner_radius=8, width=221, height=32, bg_color='White', font=('Alte Haas Grotesk', 13))
 drug_search_entry.place(x=1628, y=190)
 
-drug_search_button = customtkinter.CTkButton(master=canvas, image=search_icon, text='', width=50, height=33, corner_radius=8, bg_color='White', border_color='White')
+cur_search_window = None
+def drug_search_fn(term):
+    global cur_search_window
+    if cur_search_window != None:
+        cur_search_window.destroy()
+    cur_search_window = create_scroll_canvas(tabview_1, "Search Results", ext_funcs.search_list(term, drug_list), 'drug')
+    tabview_1.set("Search Results")
+
+
+drug_search_button = customtkinter.CTkButton(master=canvas, image=search_icon, text='', width=50, height=33, corner_radius=8, bg_color='White', border_color='White', command=lambda: drug_search_fn(drug_search_entry.get()))
 drug_search_button.place(x=1854, y=189)
 # -----------------------------End------------------------------
 
@@ -539,12 +549,18 @@ def incorrect_guess(val):
         action_history.append(["Incorrectly Diagnosed", val])
     messagebox.showerror("Incorrect diagnosis!", "Incorrect diagnosis!\n\nThat is not the right answer!")
 
-diag_button = customtkinter.CTkButton(master=canvas, image=diag_icon, text='', width=35, height=37, corner_radius=8, bg_color='White', border_color='White', fg_color='Grey30', hover_color='Grey25', command= lambda: ext_funcs.calc_systemic_score(disease_json['Disease'], disease_json['Systemic Score']) if (diag_entry.get().lower)() in disease_json['Guesses'] else incorrect_guess(diag_entry.get()))
+def correct_guess():
+    if disease_json['Disease'] == 'Marfan Syndrome':
+        ext_funcs.calc_systemic_score(disease_json['Disease'], disease_json['Systemic Score'])
+    else:
+        messagebox.showinfo("Correctly Diagnosed!", f"Congratulations!\n\nYou have correctly identified {disease_json['Disease']}.\n\nYou may now end the simulation.")
+
+diag_button = customtkinter.CTkButton(master=canvas, image=diag_icon, text='', width=35, height=37, corner_radius=8, bg_color='White', border_color='White', fg_color='Grey30', hover_color='Grey25', command= lambda: correct_guess() if (diag_entry.get().lower)() in disease_json['Guesses'] else incorrect_guess(diag_entry.get()))
 diag_button.place(x=1874, y=1033)
 # -----------------------------End------------------------------
 
 async def final_score():
-
+    global score
     if debug:
         ext_funcs.show_final_score(random.randint(0, 100), 'This is a test.')
         return None
@@ -552,17 +568,13 @@ async def final_score():
     dll_e_string = '\n'.join([' | '.join(sublist) for sublist in disease_json['Expected Procedure']])
     dll_m_string = '\n'.join([' | '.join(sublist) for sublist in action_history.to_list()]) 
 
-    message = {'role': 'user', 'content': f'I want you to compare these 2 operational procedures. This is the expected procedure: \n{dll_e_string}\n\n And this is the users procedure: \n{dll_m_string}\n\n Compare these two and give a score out of 100 for the user on how accurate their replication of the actual procedure is. Reply with ONLY the score, for example "70". Nothing else should be said in your message. Be very fair in your grading. If the user has done poor, then do not hold back to give them a low score. Try to be very fair as possible and give as much as a low score as you possibly can. IMPORTANT NOTE: Do not consider the first simulation started block in the procedure. It simply exists to mark the beginning of the procedure.'
-               }
+    message = {'role': 'user', 'content': f'I want you to compare these 2 operational procedures for {disease_json["Disease"]} diagnosis. This is the expected procedure of diagnosis: \n{dll_e_string}\n\n And the following procedure is the what the user has performed: \n{dll_m_string}\n\n Compare these two and give a score out of 100 for the user on how accurate their replication of the actual procedure is. Reply with ONLY the score and feedback/explanation. Provide a feedback and explanation of why you gave that score in the following format: "<score>.<feedback>", for example "70.<your feedback>". Nothing else should be said in your message. You may not be so generous in your grading and can give a low score if user performs poorly. However, make sure your feedback is positive and be uplifting to the user. You shall not use any special characters, however you may use the hyphen (-) as bullet points. You can address the user by saying second person pronouns like "you". Make sure your feedback is neatly formatted in bullet points (-). Do not use any formatting language or syntaxes like < > because your reponse is going to be shown as very raw text. IMPORTANT NOTE: Do not consider the first simulation started block in the procedure. It simply exists to mark the beginning of the procedure. Do not get confused or mix up between the expected procedure and users own procedure.'
+            }
     response = await AsyncClient().chat(model='llama3.2', messages=[message])
-
-    score = int(response['message']['content'])
-
-    message = {'role': 'user', 'content': f"I want you to compare these 2 operational procedures. This is the expected procedure: \n{dll_e_string}\n\n And this is the users procedure: \n{dll_m_string}\n\n From the comparison, you have given a score of {score}/100. What is your reason for giving this exact score? Address the user directly. Use pronouns like 'you' to address the user directly. Also do not use any text formatting symbols like * because those will not be displayed in your final displayed message. However you may use - to indicate bullet points. Be straightforward and authoritative, not saying things like 'I'd be happy to help' or any follow up towards the end of your message. Your message must contain the essential reviews of the procedure and that is it. Also the expected procedure is baked into the software, so the user does not know what the expected procedure is. You are simply expected to compare and review."
-               }
-    response = await AsyncClient().chat(model='llama3.2', messages=[message])
-
-    comment = response['message']['content']
+    
+    print(response['message']['content'])
+    score = int(response['message']['content'][:2])
+    comment = response['message']['content'][3:]
 
     ext_funcs.show_final_score(score, comment)
 

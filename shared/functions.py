@@ -398,3 +398,10 @@ def show_final_score(score, comment_text=""):
         command=my_top.destroy  # Use command instead of function
     )
     end_button.place(x=295, y=690, anchor=tk.SE)
+
+def search_list(search_term, items):
+    if search_term == None or search_term.strip() == '':\
+        return []
+    search_term = search_term.lower()
+    result = [item for item in items if search_term in item.lower()]
+    return result
