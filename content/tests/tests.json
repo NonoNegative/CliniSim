@@ -1,11 +1,15 @@
 {
-    "FBN1 Mutation": "", 
-
-    "BMP": "", 
-
-    "CMP": "", 
-
-    "Cardiac Biomarkers": "", 
+    "Karyotyping": ["content\\imaging\\karyotype.png", "Visual, genome-wide screen for chromosomal variants. Check for deletions, duplications or structural rearrangements"],
     
-    "CRP Test": ""
+    "FBN1 Mutation": ["content\\imaging\\fbn1.png", "Sequence analysis of the region of the fibrillin 1 gene."], 
+
+    "Cytogenetic analysis": ["content\\imaging\\fbn1.png", "Conventional and molecular cytogenetic analysis."],
+
+    "FRAXE Analysis" : ["content\\imaging\\fraxe.jpg"],
+
+    "Thyroid function": ["content\\imaging\\tft.png"],
+
+    "BMP": ["content\\imaging\\bmp.png"], 
+    
+    "CRP Test": ["content\\imaging\\crp.png"]
 }

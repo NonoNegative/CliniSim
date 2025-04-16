@@ -1,0 +1,62 @@
+{
+
+"Disease": "Turner Syndrome",
+
+"Guesses": ["turner synrome", "turner's syndrome", "ts", "turner", "turner's disease", "turner disease","tns"],
+
+"Patient": {
+    "name": "John Doe",
+    "gender": "Male",
+    "age": 16,
+    "case": "Chief complains of primary amenorrhoea and recurrent ear infections.",
+
+    "vitals": {
+        "Temp": "98.8 \u00b0F\n(Oral)",
+        "Pulse": "60 BPM",
+        "Resp": "18 Breaths/Min",
+        "BP": "120/60",
+        "SPO2": "100%"
+    }
+},
+
+"Initial_prompt": "Consider me as a doctor and you're a patient with turner Syndrome. Tell me all the physical problems you face as a patient of turner syndrome. Import all the conditions and problems faced by a male child with turner syndrome with amenorrhoea  and recurrent ear infection, and  tell it in the conversation and tell it to me when i ask",
+"Imaging": {
+        "Ultrasound" : ["content\\diseases\\turner\\images\\Ultrasoundts.png", "Ultrasound taken on the patient during fetal stages."],
+        "Echocardiogram" : ["content\\diseases\\turner\\images\\Echocardiographyts.png"]
+},
+
+"Tests": {
+        "Thyroid function": ["content\\diseases\\turner\\images\\Thyroid.png"],
+        "Karyotyping" : ["content\\diseases\\turner\\images\\Karyotypingts.png", "Visual, genome-wide screen for chromosomal variants. Check for deletions, duplications or structural rearrangements"]
+    },
+
+"Features": {
+        "Physical Examination": [
+          "Short stature",
+            "Webbed neck with a low hair line",
+             "Low set ears", 
+            "Shield chest",
+             "Cubitus valgus",
+            "High arched palate",
+            "Short fourth metacarpals",
+            "Tanner stage of breast and pubic hair development was stage1 representing pre-pubertal stage."
+        ]
+       
+    },
+
+
+"Expected Procedure": [
+        ["Simulation Started"], 
+        ["Checked Patient's Vitals"], 
+        ["Viewed Patient Profile"], 
+        ["Physical Assessment", "Examined the patient"], 
+        ["Analyzed Karyotyping Results", "Consistent with Turner Syndrome 45X0"], 
+        ["Analyzed Echocardiography ", "Normal"], 
+        ["Analyzed Thyroid function", "Normal"], 
+        ["Analyzed Ultrasound ", "Showed horse-shoe kidney, bilateral streak ovaries measuring."],
+        ["Prescribe Oxymetholone", "2 mg | Once Daily ", "for growth hormone treatment"], 
+        ["Prescribe Calcium and Vitamin D", "5 mg | Once Daily ", "for bone strengthening"], 
+        ["Prescribe Estrogen replacement therapy ", "5 mg | Once Daily "],
+        ["Prescribe Growth hormone therapy", "0.5 mg | Once Daily ", "for increasing height"]
+    ]
+}

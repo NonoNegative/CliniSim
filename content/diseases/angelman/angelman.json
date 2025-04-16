@@ -1,0 +1,73 @@
+{
+
+"Disease": "Angelman Syndrome",
+
+"Guesses": ["angelman syndrome", "angelman's syndrome", "ams", "angelman", "angelman's disease", "angelman disease", "as", "angel syndrome", "angel synd"],
+
+"Patient": {
+    "name": "John Doe",
+    "gender": "Male",
+    "age":  13,
+    "case": "A history of acute gastroenteritis and marked gross motor and speech developmental delay.",
+
+    "vitals": {
+        "Temp": "98.8 \u00b0F\n(Oral)",
+        "Pulse": "60 BPM",
+        "Resp": "18 Breaths/Min",
+        "BP": "120/60",
+        "SPO2": "100%"
+    }
+},
+
+"Initial_prompt": "Consider me as a doctor and you're a patient with Angelman Syndrome. Tell me all the physical problems you face as a patient of fragile x syndrome. Your behaviour is psychotic and you're under psychiatric review. Import all the conditions and problems faced by a female with fragile x syndrome and tell it in the conversation and tell it to me when i ask",
+
+"Imaging": {
+        "Electroencephalogram" : ["content\\diseases\\angelman\\images\\Electroencephalogram.png"],
+        "Computed Tomography (CT)": ["content\\diseases\\angelman\\images\\CT.png"]
+    },
+
+"Tests": {
+        "Karyotyping": ["content\\diseases\\angelman\\images\\Karyotyping.png", "Visual, genome-wide screen for chromosomal variants. Check for deletions, duplications or structural rearrangements"]
+    },
+
+"Features": {
+        "History": [
+            "First born",
+            "Having abnormal movements involving the head and the upper limbs at 9 months of age",
+            "Generalized extensor spasms",
+            "Sleep deprivation, which were compatible with seizures"
+        ],
+        "Extensor Spasm history": [
+            "The initial generalized extensor spasms involving both upper limbs and the head, occurring as short-lasting clusters (one spasm would persist for about 1 to 2 seconds, with recurrence in 10 to 20 clustering events, each occurrence lasting for about 3 to 5 minutes)",
+            "Transformed by the age of 1 year and 2 months into spasms of a flexor type resembling infantile spasms.",
+            "Subsequently, the child developed generalized tonic-clonic convulsions",
+            "Most of the time, the seizures were precipitated by a low-grade fever, leading to repeated hospital admissions.",
+            "The focus for the recurrent fever was not identified.",
+            "Monosyllabic babbling had started at the age of 1 year. He was able to sit without support and able to keep his back straight",
+            "He was stable in standing position with support for a very short period (<5s)"
+        ],
+
+        "Physical Assessment": [
+            "Hypotonia with characteristic facial appearance of deep-set eyes, a wide mouth with protruding tongue and a pointed nose",
+            "Fair in complexion, with a hypopigmented patch over the left anterior thigh.",
+            "Keeps his hands upheld, and exhibits abnormal, uncoordinated, jerky movements of the arms.",
+            "He always tends be seated with a rounded back, suggestive of underlying scoliosis",
+            "Has episodes of inappropriate laughter",
+            "Had weight gain."
+        ]
+    },
+     
+"Expected Procedure": [
+        ["Simulation Started"], 
+        ["Checked Patient's Vitals"], 
+        ["Viewed Patient Profile"], 
+        ["Physical Assessment", "Examined the patient"], 
+        ["Analyzed Electroencephalogram Results", "No epileptiform discharges were seen. The sleep background was immature and comprised of blocks of diffuse, moderate-amplitude, polymorphic delta activities alternating with a delta-theta mixed background"], 
+        ["Analyzed Computed Tomometry Results", "Brain showed prominent sulci with widened subarachnoid spaces bilaterally in the frontal region, and a few hypodense areas were seen in the frontal white matter, predominantly in the periventricular region and centrum semiovale. Furthermore, there was mild prominence in the ventricular system favoring early cerebral atrophy."], 
+        ["Analyzed Karyotyping Results", "The presence of a deletion involving all the probes for the 15q11.2 region"], 
+        ["Prescribe Valproic acid (VPA)", "30 mg | Every day "], 
+        ["Prescribe Carbamazepine (CBZ)", "5 mg | Every day "], 
+        ["Prescribe Clonazepam (CNZ) ", "0.5 mg | Every day"], 
+        ["Correctly Diagnosed", "Angelman Syndrome"]
+    ]
+}

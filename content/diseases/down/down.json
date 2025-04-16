@@ -1,0 +1,65 @@
+{
+
+"Disease": "Down Syndrome",
+
+"Guesses": ["down syndrome", "down's syndrome", "dns", "ds", "down's disease", "down disease","down synd"],
+
+"Patient": {
+    "name": "Joey Markal",
+    "gender": "Male",
+    "age": 21,
+    "case": "Severe pulmonary arterial hypertension, A patent ductus arteriosus (PDA) closure was successfully performed, but atrial septal defect (ASD) closure was withheld due to the patient's complicated pulmonary arterial hypertension. ",
+
+    "vitals": {
+        "Temp": "98.8 \u00b0F\n(Oral)",
+        "Pulse": "60 BPM",
+        "Resp": "18 Breaths/Min",
+        "BP": "120/60",
+        "SPO2": "100%"
+    }
+},
+
+"Initial_prompt": "Consider me as a doctor and you're a patient with Down Syndrome. Tell me all the physical problems you face as a patient of down syndrome. Import all the conditions and problems faced by a male child with down syndrome with arterial hypertension  and tell it in the conversation and tell it to me when i ask",
+
+"Imaging": {
+        "Chest Digital Radiography (DR)" : ["content\\diseases\\down\\images\\digitalradiography.png"],
+        "Echocardiogram": ["content\\diseases\\down\\images\\echocardiogram.png"]
+    },
+
+"Tests": {
+
+},
+
+"Features": {
+        "Physical Examination": [
+           "A pulse rate of 95 bpm,",
+           "Blood pressure of 113/55 mmHg, and pale purplish lips.",
+           "Cardiac percussion examination revealed leftward expansion of the heart border.",
+           "Auscultation revealed regular heart rhythm with mild hyperactivity of P2, but no discernible noise."
+        ],
+
+        "Imaging Examination": [
+            "The position and functionality of the PDA interventional closing device were normal, the right atrium and ventricle show enlarged diameters and increased wall thickness in the right ventricle ",
+            "The patient exhibits blood flow signals indicating left-to-right shunting that can be visualized in the atrium",
+            "A small regurgitant jet can be observed at the tricuspid valve during atrial contraction, with peak flow velocity of 398cm/s and a peak pressure gradient of 63mmHg"
+        ]
+       
+    },
+
+"Expected Procedure": [
+        ["Simulation Started"], 
+        ["Checked Patient's Vitals"], 
+        ["Viewed Patient Profile"], 
+        ["Physical Assessment", "Examined the patient"], 
+        ["Analyzed digital radiography","Presence of an atrial septal defect "], 
+        ["Analyzed Echocardiogram Results", "Sinus rhythm, right chamber hypertrophy"], 
+        ["Prescribe Bosentan", "2 mg | Once Daily ", "For management of pulmonary arterial hypertension"], 
+        ["Prescribe Sildenafil", "5 mg | Once Daily ", "For management of pulmonary arterial hypertension"], 
+        ["Prescribe Donepezil", "5 mg | Once Daily ", "For dementia"],
+        ["Prescribe Sertraline", "0.5 mg | Once Daily ", "For OCD management"],
+        ["Prescribe Carbamazepine", "5 mg | Once Daily ", "For seizure control"],
+        ["Prescribe Levothyroxine", "2.6 microgram | Once Daily ", "For treating hyperthyroidism"],
+        ["Prescribe Citalopram", "15 mg | Whenever required ", "For depression management"],
+        ["Correctly Diagnosed", "Down Syndrome"]
+    ]
+}

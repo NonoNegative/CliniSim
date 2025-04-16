@@ -1,11 +1,43 @@
 {
+    "Acamprosate": "Modulates NMDA and GABA-A receptors to stabilize neurotransmission disrupted by chronic alcohol exposure.",
+
+    "Bosentan": "Dual endothelin receptor antagonist reducing pulmonary vascular resistance by blocking ET-A and ET-B receptors.",
+
+    "Cannabidiol": "Non-psychoactive cannabinoid modulating endocannabinoid receptors to exert anticonvulsant and anxiolytic effects.",
+
+    "Carbamazepine": "Anticonvulsant stabilizing hyperexcited nerve membranes by blocking voltage-gated sodium channels.",
+
+    "Citalopram": "SSRI selectively inhibiting serotonin reuptake, increasing synaptic serotonin concentrations to treat depression.",
+
+    "Clonazepam": "Benzodiazepine enhancing GABA-A receptor activity, increasing chloride influx to produce anxiolytic and anticonvulsant effects.",
+
+    "Donepezil": "Acetylcholinesterase inhibitor increasing acetylcholine levels in the brain to improve cognitive function in Alzheimer's disease.",
+
     "Enalapril": "ACE inhibitor reducing blood pressure by preventing angiotensin II formation, promoting vasodilation and sodium excretion.",
+
+    "Estrogen": "Steroid hormone binding to estrogen receptors to regulate gene expression involved in reproductive and sexual characteristics.",
+
+    "Irbesartan": "ARB blocking angiotensin II receptors, reducing vasoconstriction and aldosterone effects to lower blood pressure.",
+
+    "Levothyroxine": "Synthetic T4 hormone supplementing deficient thyroid hormone levels to normalize metabolic processes.",
 
     "Losartan": "Angiotensin II receptor blocker (ARB) lowering blood pressure by inhibiting vasoconstriction and aldosterone secretion.",
 
-    "Propranolol": "Non-selective beta-blocker reducing heart rate and blood pressure by inhibiting \u03B21 and \u03B22 adrenergic receptors.",
+    "Lovastatin": "HMG-CoA reductase inhibitor decreasing cholesterol synthesis in the liver to lower LDL cholesterol levels.",
 
-    "Irbesartan": "ARB blocking angiotensin II receptors, reducing vasoconstriction and aldosterone effects to lower blood pressure.",
-    
-    "Paracetamol":  "Analgesic and antipyretic inhibiting cyclooxygenase (COX) enzymes in the CNS, reducing pain and fever."
+    "Metformin": "Biguanide lowering hepatic glucose production and improving insulin sensitivity to manage type 2 diabetes.",
+
+    "Minocycline": "Broad-spectrum tetracycline antibiotic inhibiting bacterial protein synthesis by binding to the 30S ribosomal subunit.",
+
+    "Oxymetholone": "Synthetic anabolic steroid and androgen receptor agonist promoting erythropoiesis and muscle growth.",
+
+    "Paracetamol": "Analgesic and antipyretic inhibiting cyclooxygenase (COX) enzymes in the CNS, reducing pain and fever.",
+
+    "Propranolol": "Non-selective beta-blocker reducing heart rate and blood pressure by inhibiting β1 and β2 adrenergic receptors.",
+
+    "Sertraline": "SSRI inhibiting serotonin reuptake, enhancing neurotransmission to alleviate depression and anxiety.",
+
+    "Sildenafil": "PDE5 inhibitor increasing cGMP levels, leading to smooth muscle relaxation and vasodilation in erectile tissue.",
+
+    "Valproic acid": "Anticonvulsant enhancing GABA levels and inhibiting voltage-gated sodium channels to stabilize neuronal activity."
 }

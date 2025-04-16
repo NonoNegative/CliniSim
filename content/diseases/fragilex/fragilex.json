@@ -1,0 +1,62 @@
+{ 
+    "Disease": "Fragile X Syndrome",
+    
+    "Guesses": ["fragile X synrome", "fragilex syndrome", "fragile x ", " fargile x syndrome", "fragile x disease", "fragile x Disease", "x fragile syndome", "fx syndrome", "fxs"],
+    
+    "Patient": {
+        "name": "Jade Mary",
+        "gender": "Female",
+        "age": 27,
+        "case": "Severe hyperphagia with nocturnal food foraging, a psychotic illness with a severe affective component and was under regular psychiatric review, a full scale IQ of 65 with a particular deficit in verbal reasoning.",
+    
+        "vitals": {
+            "Temp": "98.8 \u00b0F\n(Oral)",
+            "Pulse": "72 BPM",
+            "Resp": "18 Breaths/Min",
+            "BP": "120/60",
+            "SPO2": "100%"
+        }
+    },
+    
+    "Initial_prompt":"Consider me as a doctor and you're a patient with Fragile X Syndrome. Tell me all the physical problems you face as a patient of fragile x syndrome. Your behaviour is psychotic and you're under psychiatric review. Import all the conditions and problems faced by a female with fragile x syndrome and tell it in the conversation and tell it to me when i ask",
+    
+    "Imaging": {
+            "Computed Tomography (CT)": ["content\\diseases\\fragilex\\images\\xray_fragilex.png", "Normal skull shape."],
+            "X-Ray": ["content\\diseases\\marfan\\fragilex\\xray.png", "There appears to be a slight curvature of the spine."]
+        },
+    
+    "Tests": {
+            "Cytogenetic analysis" : ["content\\diseases\\fragilex\\images\\Cytogenetic.png", "Standard G-banded karyotype analysis."],
+            "FRAXE Analysis" : ["content\\diseases\\fragilex\\images\\FRAXE.png","A single FRAXA allele corresponding to 33 CCG repeats was amplified for the index case."]
+            
+        },
+
+"Features": {
+        "Physical assessment": ["Height: 178cm tall", "Weight: 191kg","BMI: 60" ],
+
+        "Physical features": ["Small hands and feet (shoe size 4)", 
+                             "Normal skull shape ", 
+                            "Head circumference: 56cm",
+                            "Normal ear morphology and no specific dysmorphic features"
+            
+    ]
+},
+"Expected Procedure": [
+        ["Simulation Started"], 
+        ["Checked Patient's Vitals"],
+        ["Viewed Patient Profile"], 
+        ["History taking and chat with patient"],
+        ["Physical Assessment", "Examined the patient"], 
+        ["Analyzed X-Ray Results", "Normal skull shape"], 
+        ["Analyzed Cytogenetic analysis report", "Reports showed a 47,XXX karyotype (Triple X), the result was confirmed by multiplex ligation-dependent probe amplification (MLPA). "], 
+        ["Analyzed FRAXE analysis result", "A single FRAXA allele corresponding to 33 CCG repeats was amplified for the index case"],  
+        ["Prescribe Setraline", "20 mg | Once Daily (OD)","to treat anxiety"], 
+        ["Prescribe Metformin", "50 mg | Twice Daily (BID)","for weight loss and type 2 diabetes"], 
+        ["Prescribe Cannabidiol (CBD)", "30 mg | whenever required", "treating inflammation, ameliorating pain"], 
+        ["Prescribe Acamprosate", "200 mg | whenever required", "for pleiotropic effects"], 
+        ["Prescribe Lovastatin", "1 tab, 150 mg | alternate week", "for treating hypercholestroleia and hyperlipidemia"], 
+        ["Prescribe Minocycline", "1 tab, 750 mg | weekly once", "for treating acne"], 
+        ["Correctly Diagnosed", "Fragile X Syndrome"]
+       
+    ]
+}

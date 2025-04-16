@@ -18,6 +18,7 @@ from shared.action_history import dll as action_history
 import asyncio
 # -------------------End-------------------
 
+force_disease = 'angelman'
 debug = True
 dont_render_video = True
 
@@ -77,16 +78,24 @@ canvas = tk.Canvas(root, width=screen_width, height=screen_height, highlightthic
 canvas.pack()
 
 background_image = customtk.create_tk_image('assets\\backgrounds\\sample_snapshot.png', screen_width, screen_height)
-canvas.create_image(0, 0, anchor=tk.NW, image=background_image)
+#canvas.create_image(0, 0, anchor=tk.NW, image=background_image)
+
+# -----------------Patient Intialize-----------------
+disease_id = random.choice(os.listdir("content\\diseases")) # Select a random patient
+if force_disease != None:
+    disease_id = force_disease
+disease_json = json.load(open(f"content\\diseases\\{disease_id}\\{disease_id}.json")) # Parse JSON to Dictionary
+patient = disease_json["Patient"]
+print(colored(" INFO ", 'black', 'on_yellow'),  f"Selected Patient: {patient['name']} [ID: {disease_id}] from path" , colored(f"'content\\diseases\\{disease_id}\\{disease_id}.json'", 'dark_grey'))
 
 # Load Animation
 if not dont_render_video:
     video_player = TkinterVideo(canvas, borderwidth=0, bg='Black', fg='black', consistant_frame_rate=True)
-    video_player.set_size((430, 684))
-    video_player.place(x=960, y=1080, anchor=tk.S)
-    video_player.bind("<<Loaded>>", lambda e: e.widget.config(width=430, height=684))
+    video_player.set_size((1205, 1080))
+    video_player.place(x=408, y=0, anchor=tk.NW)
+    video_player.bind("<<Loaded>>", lambda e: e.widget.config(width=1205, height=1080))
     #video_player.bind("<<SecondChanged>>", lambda e: print(video_player.current_frame_number()))
-    video_player.load("content\\animations\\idle.mp4")
+    video_player.load(f"content\\diseases\\{disease_id}\\idle.mp4")
 
     def start_video():
         video_player.seek(0)
@@ -95,8 +104,6 @@ if not dont_render_video:
         video_player.update_idletasks()
 
     start_video()
-
-canvas.create_image(0, 0, anchor=tk.NW, image=background_image)
 
 static_img = customtk.create_tk_image('assets\\static\\static_v3.png', screen_width, screen_height)
 canvas.create_image(0, 0, anchor=tk.NW, image=static_img)
@@ -140,20 +147,14 @@ canvas.create_line(((screen_width)//2)-26, 4, ((screen_width)//2)-26, drawer_hei
 
 # ------------------------End------------------------
 
-# -----------------Patient Intialize-----------------
-disease_id = random.choice(os.listdir("content\\diseases")) # Select a random patient
-disease_json = json.load(open(f"content\\diseases\\{disease_id}\\{disease_id}.json")) # Parse JSON to Dictionary
-patient = disease_json["Patient"]
-print(colored(" INFO ", 'black', 'on_yellow'),  f"Selected Patient: {patient['name']} [ID: {disease_id}] from path" , colored(f"'content\\diseases\\{disease_id}\\{disease_id}.json'", 'dark_grey'))
-
-# Update Profile
+# -------------------Update Profile------------------
 canvas.create_line(150, 65, 387, 65, fill='White', width=1); canvas.create_line(150, 105, 387, 105, fill='White', width=1)
 canvas.create_text(152, 71, text=patient['name'], font=('Alte Haas Grotesk', 17, 'bold'), fill='Grey30', anchor=tk.NW)
 patient_headshot = customtk.create_tk_image(f"content\\diseases\\{disease_id}\\avatar.png", 100, 100)
 canvas.create_image(30, 66, image=patient_headshot, anchor=tk.NW)
 canvas.create_text(205, 126, text=patient['age'], font=('Alte Haas Grotesk', 12, 'bold'), fill='Grey30', anchor=tk.W, justify='left')
 canvas.create_text(233, 159, text=patient['gender'], font=('Alte Haas Grotesk', 12, 'bold'), fill='Grey30', anchor=tk.W, justify='left')
-canvas.create_text(88, 192, text=patient['case'], font=('Alte Haas Grotesk', 12, 'bold'), fill='Grey30', anchor=tk.NW, justify='left', width=300)
+canvas.create_text(88, 189, text=patient['case'], font=('Alte Haas Grotesk', 12, 'bold'), fill='Grey30', anchor=tk.NW, justify='left', width=300)
 # ------------------------End------------------------
 
 # -----------------Profile and History Buttons-----------------

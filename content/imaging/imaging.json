@@ -1,13 +1,21 @@
 {
 
-"Echocardiogram": "", 
+"Echocardiogram": ["content\\imaging\\ecg.png", "Transthoracic echocardiography. Normal global systolic function."], 
 
-"MRA": "", 
+"MRA": ["content\\imaging\\mra.jpeg", "Cranial MRI with MRA and MRV of the patient."], 
 
-"Bimicroscopy": "", 
+"Bimicroscopy": ["content\\imaging\\bimic.png", "Slit-lamp biomicroscopy of the right eye."], 
 
-"Tonometry": "", 
+"Tonometry": ["content\\imaging\\tonometry.jpg", "Corneal OCT images"], 
 
-"X-Ray": ""
+"X-Ray": ["content\\imaging\\xray.png"],
+
+"Electroencephalogram": ["content\\imaging\\eeg.png"],
+
+"Computed Tomography (CT)": ["content\\imaging\\ct.jpg"],
+
+"Chest Digital Radiography (DR)": ["content\\imaging\\chest.jpg"],
+
+"Ultrasound": ["content\\imaging\\ultrasound.jpg","Ultrasound taken on the patient during fetal stages."]
 
 }
