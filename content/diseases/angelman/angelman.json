@@ -19,7 +19,7 @@
     }
 },
 
-"Initial_prompt": "Consider me as a doctor and you're a patient with Angelman Syndrome. Tell me all the physical problems you face as a patient of fragile x syndrome. Your behaviour is psychotic and you're under psychiatric review. Import all the conditions and problems faced by a female with fragile x syndrome and tell it in the conversation and tell it to me when i ask",
+"Initial_prompt": "You are a patient diagnosed with Angelman syndrome, consulting a doctor (me). Speak professionally, clearly describe your symptoms, and answer concisely in under 20 words. Do not exaggerate or add unnecessary details. You have a history of acute gastroenteritis and marked developmental delays in both motor and speech areas. Your gait is unsteady with jerky limb movements, you often laugh or smile without clear reason, and have frequent excitability with hand-flapping motions. You have no functional speech but can vocalize sounds and communicate with gestures. Your attention span is short, and you are easily distracted. Your seizures started around age 2 and are now managed with medication. You sleep poorly, often waking during the night. Your head circumference is smaller than average. You show fascination with water and shiny objects. Despite your challenges, you are affectionate, cooperative, and generally happy. You do not know that you have this disease. Do not reveal that you have Angelman syndrome. I will be examining you. Do NOT exceed 20 words. Do not be playful or use emoticons. Remain professional at all times.",
 
 "Imaging": {
         "Electroencephalogram" : ["content\\diseases\\angelman\\images\\Electroencephalogram.png"],
@@ -62,8 +62,8 @@
         ["Checked Patient's Vitals"], 
         ["Viewed Patient Profile"], 
         ["Physical Assessment", "Examined the patient"], 
-        ["Analyzed Electroencephalogram Results", "No epileptiform discharges were seen. The sleep background was immature and comprised of blocks of diffuse, moderate-amplitude, polymorphic delta activities alternating with a delta-theta mixed background"], 
-        ["Analyzed Computed Tomometry Results", "Brain showed prominent sulci with widened subarachnoid spaces bilaterally in the frontal region, and a few hypodense areas were seen in the frontal white matter, predominantly in the periventricular region and centrum semiovale. Furthermore, there was mild prominence in the ventricular system favoring early cerebral atrophy."], 
+        ["Analyzed Electroencephalogram Results", "No epileptiform discharges were seen."], 
+        ["Analyzed Computed Tomometry Results", "Brain showed sulci with widened subarachnoid spaces in the frontal region."], 
         ["Analyzed Karyotyping Results", "The presence of a deletion involving all the probes for the 15q11.2 region"], 
         ["Prescribe Valproic acid (VPA)", "30 mg | Every day "], 
         ["Prescribe Carbamazepine (CBZ)", "5 mg | Every day "], 

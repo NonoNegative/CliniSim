@@ -18,7 +18,7 @@ from shared.action_history import dll as action_history
 import asyncio
 # -------------------End-------------------
 
-force_disease = 'marfan'
+force_disease = 'angelman'
 debug = False
 dont_render_video = False
 

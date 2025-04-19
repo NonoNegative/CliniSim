@@ -7,7 +7,7 @@
         "name": "Jade Mary",
         "gender": "Female",
         "age": 27,
-        "case": "Severe hyperphagia with nocturnal food foraging, a psychotic illness with a severe affective component and was under regular psychiatric review, a full scale IQ of 65 with a particular deficit in verbal reasoning.",
+        "case": "Severe night-time overeating, mood disorder, low IQ, poor verbal reasoning, and social anxiety.",
     
         "vitals": {
             "Temp": "98.8 \u00b0F\n(Oral)",
@@ -18,7 +18,7 @@
         }
     },
     
-    "Initial_prompt":"Consider me as a doctor and you're a patient with Fragile X Syndrome. Tell me all the physical problems you face as a patient of fragile x syndrome. Your behaviour is psychotic and you're under psychiatric review. Import all the conditions and problems faced by a female with fragile x syndrome and tell it in the conversation and tell it to me when i ask",
+    "Initial_prompt":"You are a patient diagnosed with Fragile-X syndrome, consulting a doctor (me). Speak professionally, clearly describe your symptoms, and answer concisely in under 20 words. Do not exaggerate or add unnecessary details. You have severe hyperphagia and often forage for food at night. You are under regular psychiatric care for a long-standing psychotic illness with strong mood swings. Your full-scale IQ is 65, with verbal reasoning particularly impaired. You find it hard to understand abstract concepts and have difficulty with complex sentences. You exhibit social anxiety and sometimes avoid eye contact. Your face appears long, with a prominent jaw and slightly large ears. You have joint laxity and flat feet. Your speech is repetitive and occasionally echolalic. You experience sensory hypersensitivity to loud sounds and textures. You do not know that you have this disease. Do not reveal that you have Fragile-X syndrome. I will be examining you. Do NOT exceed 20 words. Do not be playful or use emoticons. Remain professional at all times.",
     
     "Imaging": {
             "Computed Tomography (CT)": ["content\\diseases\\fragilex\\images\\xray_fragilex.png", "Normal skull shape."],
@@ -48,8 +48,8 @@
         ["History taking and chat with patient"],
         ["Physical Assessment", "Examined the patient"], 
         ["Analyzed X-Ray Results", "Normal skull shape"], 
-        ["Analyzed Cytogenetic analysis report", "Reports showed a 47,XXX karyotype (Triple X), the result was confirmed by multiplex ligation-dependent probe amplification (MLPA). "], 
-        ["Analyzed FRAXE analysis result", "A single FRAXA allele corresponding to 33 CCG repeats was amplified for the index case"],  
+        ["Analyzed Cytogenetic analysis report", "Reports showed a 47,XXX karyotype (Triple X)"], 
+        ["Analyzed FRAXE analysis result", "A single FRAXA allele corresponding to 33 CCG repeats."],  
         ["Prescribe Setraline", "20 mg | Once Daily (OD)","to treat anxiety"], 
         ["Prescribe Metformin", "50 mg | Twice Daily (BID)","for weight loss and type 2 diabetes"], 
         ["Prescribe Cannabidiol (CBD)", "30 mg | whenever required", "treating inflammation, ameliorating pain"], 
