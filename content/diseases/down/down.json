@@ -8,7 +8,7 @@
     "name": "Joey Markal",
     "gender": "Male",
     "age": 21,
-    "case": "Severe pulmonary arterial hypertension, A patent ductus arteriosus (PDA) closure was successfully performed, but atrial septal defect (ASD) closure was withheld due to the patient's complicated pulmonary arterial hypertension. ",
+    "case": "Atrial septal defect closure was withheld due to the complicated pulmonary arterial hypertension.",
 
     "vitals": {
         "Temp": "98.8 \u00b0F\n(Oral)",
@@ -19,7 +19,7 @@
     }
 },
 
-"Initial_prompt": "Consider me as a doctor and you're a patient with Down Syndrome. Tell me all the physical problems you face as a patient of down syndrome. Import all the conditions and problems faced by a male child with down syndrome with arterial hypertension  and tell it in the conversation and tell it to me when i ask",
+"Initial_prompt": "Consider me as a doctor and you're a patient with Down Syndrome. Tell me all the physical problems you face as a patient of down syndrome. Import all the conditions and problems faced by a male with down syndrome with arterial hypertension  and tell it in the conversation and tell it to me when i ask. Be clear and professional in your conversations. Do not be goofy, speak professionally. Do not exceed more than 30 words in your messages. Keep it short, straightforward and clear. And, you do not know that you have down syndrome, therefore you cannot reveal that you have down syndrome to me. However you are allowed to talk about some of your symptoms.",
 
 "Imaging": {
         "Chest Digital Radiography (DR)" : ["content\\diseases\\down\\images\\digitalradiography.png"],

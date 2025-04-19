@@ -18,9 +18,9 @@ from shared.action_history import dll as action_history
 import asyncio
 # -------------------End-------------------
 
-force_disease = 'angelman'
-debug = True
-dont_render_video = True
+force_disease = 'marfan'
+debug = False
+dont_render_video = False
 
 if not debug:
     from ollama import AsyncClient
@@ -77,8 +77,8 @@ screen_width = root.winfo_screenwidth()
 canvas = tk.Canvas(root, width=screen_width, height=screen_height, highlightthickness=0)
 canvas.pack()
 
-background_image = customtk.create_tk_image('assets\\backgrounds\\sample_snapshot.png', screen_width, screen_height)
-#canvas.create_image(0, 0, anchor=tk.NW, image=background_image)
+background_image = customtk.create_tk_image('assets\\backgrounds\\ccc.png', 1205, 1080)
+canvas.create_image(408, 0, anchor=tk.NW, image=background_image)
 
 # -----------------Patient Intialize-----------------
 disease_id = random.choice(os.listdir("content\\diseases")) # Select a random patient
@@ -91,16 +91,16 @@ print(colored(" INFO ", 'black', 'on_yellow'),  f"Selected Patient: {patient['na
 # Load Animation
 if not dont_render_video:
     video_player = TkinterVideo(canvas, borderwidth=0, bg='Black', fg='black', consistant_frame_rate=True)
-    video_player.set_size((1205, 1080))
-    video_player.place(x=408, y=0, anchor=tk.NW)
-    video_player.bind("<<Loaded>>", lambda e: e.widget.config(width=1205, height=1080))
+    video_player.set_size((1205, 980))
+    video_player.place(x=408, y=100, anchor=tk.NW)
+    video_player.bind("<<Loaded>>", lambda e: e.widget.config(width=1205, height=980))
     #video_player.bind("<<SecondChanged>>", lambda e: print(video_player.current_frame_number()))
-    video_player.load(f"content\\diseases\\{disease_id}\\idle.mp4")
+    video_player.load(f"content\\diseases\\{disease_id}\\test.mp4")
 
     def start_video():
         video_player.seek(0)
         video_player.play()
-        root.after(16000, start_video)
+        root.after(7000, start_video)
         video_player.update_idletasks()
 
     start_video()
