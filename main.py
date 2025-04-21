@@ -18,7 +18,7 @@ from shared.action_history import dll as action_history
 import asyncio
 # -------------------End-------------------
 
-force_disease = 'down'
+force_disease = 'angelman'
 debug = False
 dont_render_video = False
 
@@ -568,10 +568,10 @@ async def final_score():
         ext_funcs.show_final_score(random.randint(0, 100), 'This is a test.')
         return None
     
-    dll_e_string = '\n'.join([' | '.join(sublist) for sublist in disease_json['Expected Procedure']])
-    dll_m_string = '\n'.join([' | '.join(sublist) for sublist in action_history.to_list()]) 
+    dll_e_string = '\n'.join([' | '.join(map(str, sublist)) for sublist in disease_json['Expected Procedure']])
+    dll_m_string = '\n'.join([' | '.join(map(str, sublist)) for sublist in action_history.to_list()])
 
-    message = {'role': 'user', 'content': f'I want you to compare these 2 operational procedures for {disease_json["Disease"]} diagnosis. This is the expected procedure of diagnosis: \n{dll_e_string}\n\n And the following procedure is the what the user has performed: \n{dll_m_string}\n\n Compare these two and give a score out of 100 for the user on how accurate their replication of the actual procedure is. Reply with ONLY the score and feedback/explanation. Provide a feedback and explanation of why you gave that score in the following format: "<score>.<feedback>", for example "70.<your feedback>". Nothing else should be said in your message. You may not be so generous in your grading and can give a low score if user performs poorly. However, make sure your feedback is positive and be uplifting to the user. You shall not use any special characters, however you may use the hyphen (-) as bullet points. You can address the user by saying second person pronouns like "you". Make sure your feedback is neatly formatted in bullet points (-). Do not use any formatting language or syntaxes like < > because your reponse is going to be shown as very raw text. IMPORTANT NOTE: Do not consider the first simulation started block in the procedure. It simply exists to mark the beginning of the procedure. Do not get confused or mix up between the expected procedure and users own procedure.'
+    message = {'role': 'user', 'content': f'I want you to compare these 2 operational procedures for {disease_json["Disease"]} diagnosis. This is the expected procedure of diagnosis: \n{dll_e_string}\n\n And the following procedure is the what the user has performed: \n{dll_m_string}\n\n Compare these two and give a score out of 100 for the user on how accurate their replication of the actual procedure is. Reply with ONLY the score and feedback/explanation. Provide a feedback and explanation of why you gave that score in the following format: "<score>.<feedback>", for example "70.<your feedback>". Nothing else should be said in your message. You may not be so generous in your grading and you must give the user a low score if user performs poorly. However, make sure your feedback is positive and be uplifting to the user. You shall not use any special characters, however you may use the hyphen (-) as bullet points. You can address the user by saying second person pronouns like "you". Make sure your feedback is neatly formatted in bullet points (-). Do not use any formatting language or syntaxes like < > because your reponse is going to be shown as very raw text. IMPORTANT NOTE: Do not consider the first simulation started block in the procedure. It simply exists to mark the beginning of the procedure. Do not get confused or mix up between the expected procedure and users own procedure.'
             }
     response = await AsyncClient().chat(model='llama3.2', messages=[message])
     
